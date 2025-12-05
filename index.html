@@ -1,0 +1,3431 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>presentation_direction_design_system</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/codyhouse-framework/main/assets/css/style.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/themes/prism.min.css"
+      integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/plugins/unescaped-markup/prism-unescaped-markup.min.css"
+      integrity="sha512-g33HCZ23fueSK96JEeoy9DelAlu7Ry5mtxqLk+zlEiPj7NIpFI6T9mybOvQxjBN50FALFDCviMXiLqWJcFwzaA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
+    <style>
+      @font-face {
+        font-family: "Mr Dodo";
+        src: url("./fonts/MrDodo-Medium/MrDodo-Medium.eot");
+        src: local("Mr Dodo Medium"), local("MrDodo-Medium"),
+          url("./fonts/MrDodo-Medium/MrDodo-Medium.eot?#iefix")
+            format("embedded-opentype"),
+          url("./fonts/MrDodo-Medium/MrDodo-Medium.woff2") format("woff2"),
+          url("./fonts/MrDodo-Medium/MrDodo-Medium.woff") format("woff"),
+          url("./fonts/MrDodo-Medium/MrDodo-Medium.ttf") format("truetype");
+        font-weight: 500;
+        font-style: normal;
+      }
+      .DODO {
+        font-size: clamp(48px, 6vw, 96px);
+        text-transform: uppercase;
+        line-height: 1;
+        margin-block: 0;
+        font-family: "Mr Dodo", sans-serif;
+        color: #3732ff;
+      }
+      .white {
+        color: white !important;
+      }
+      .bg-white {
+        background-color: white !important;
+      }
+      .bleu {
+        color: #3732ff !important;
+      }
+      .bg-bleu {
+        background-color: #3732ff !important;
+      }
+      .rouge {
+        color: #ff506e !important;
+      }
+      .bg-rouge {
+        background-color: #ff506e !important;
+      }
+      .bleu-clair {
+        color: #7df0ff !important;
+      }
+      .bg-bleu-clair {
+        background-color: #7df0ff !important;
+      }
+      .violet {
+        color: #b4a0ff !important;
+      }
+      .bg-violet {
+        background-color: #b4a0ff !important;
+      }
+      .rose {
+        color: #ffafff !important;
+      }
+      .bg-rose {
+        background-color: #ffafff !important;
+      }
+      .vert {
+        color: #a0faaf !important;
+      }
+      .bg-vert {
+        background-color: #a0faaf !important;
+      }
+      .jaune {
+        color: #f0fab4 !important;
+      }
+      .bg-jaune {
+        background-color: #f0fab4 !important;
+      }
+      .bg-noir {
+        background-color: #000 !important;
+      }
+      .orange {
+        color: #ffd2b4 !important;
+      }
+      .bg-orange {
+        background-color: #ffd2b4 !important;
+      }
+
+      /* Presentation / slide-like layout */
+      html,
+      body {
+        height: 100%;
+      }
+      body {
+        font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto,
+          "Helvetica Neue", Arial;
+        color: #1f2233;
+        line-height: 1.45;
+        -webkit-font-smoothing: antialiased;
+        scroll-behavior: smooth;
+        background: #fff;
+      }
+
+      /* Make each major section behave like a slide */
+      section,
+      .container.max-width-sm.stack {
+        scroll-snap-align: start;
+      }
+
+      /* Parent scroll container: enable vertical snap */
+      main,
+      body > .hero,
+      body > section,
+      body > div {
+        scroll-snap-stop: normal;
+      }
+
+      /* Root scroll-snap container */
+      body {
+        scroll-snap-type: y mandatory;
+      }
+
+      /* Improve table readability */
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 0.75rem;
+      }
+      th,
+      td {
+        padding: 0.5rem 0.75rem;
+        text-align: left;
+        border-bottom: 1px solid rgba(16, 24, 40, 0.06);
+      }
+      thead th {
+        background: rgba(243, 244, 246, 0.6);
+        font-weight: 600;
+      }
+
+      /* details/summary styling for presentation */
+      details {
+        margin-top: 0.5rem;
+      }
+      summary {
+        cursor: pointer;
+      }
+      summary::-webkit-details-marker {
+        display: none;
+      }
+      details[open] summary {
+        color: var(--color-primary, #3732ff);
+      }
+
+      [class^="flow"] > * {
+        margin-bottom: 0;
+        margin-top: 0;
+      }
+
+      .vflow--none > * + * {
+        margin-top: 0;
+      }
+
+      .vflow--base > * + * {
+        margin-top: 16px;
+      }
+
+      .vflow--xs > * + * {
+        margin-top: 4px;
+      }
+
+      .vflow--sm > * + * {
+        margin-top: 8px;
+      }
+
+      .vflow--md > * + * {
+        margin-top: 16px;
+      }
+
+      .vflow--lg > * + * {
+        margin-top: 24px;
+      }
+
+      .vflow--xl > * + * {
+        margin-top: 32px;
+      }
+
+      .vflow--xxl > * + * {
+        margin-top: 64px;
+      }
+
+      .hflow--none > * + * {
+        margin-left: 0;
+      }
+
+      .hflow--base > * + * {
+        margin-left: 16px;
+      }
+
+      .hflow--xs > * + * {
+        margin-left: 4px;
+      }
+
+      .hflow--sm > * + * {
+        margin-left: 8px;
+      }
+
+      .hflow--md > * + * {
+        margin-left: 16px;
+      }
+
+      .hflow--lg > * + * {
+        margin-left: 24px;
+      }
+
+      .hflow--xl > * + * {
+        margin-left: 32px;
+      }
+
+      .hflow--xxl > * + * {
+        margin-left: 64px;
+      }
+
+      .hero {
+        /* if background image in CSS */
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center center;
+      }
+
+      /* --overlay-layer */
+      .hero--overlay-layer::after {
+        /* add a layer in between the img/video background and the content */
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        background-color: hsla(
+          var(--color-bg-h),
+          var(--color-bg-s),
+          var(--color-bg-l),
+          0.65
+        );
+        z-index: 1;
+      }
+      .sticky-hero {
+        position: relative;
+        z-index: 1;
+      }
+
+      .sticky-hero__media {
+        position: relative;
+        position: sticky;
+        z-index: 1;
+        top: 0;
+        width: 100%;
+        height: 100vh;
+        overflow: hidden;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        transition: transform 0.5s var(--ease-in-out);
+        transform: translateZ(0);
+      }
+
+      .sticky-hero--overlay-layer .sticky-hero__media::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        opacity: 0;
+        background-color: var(--color-bg);
+        transition: opacity 1s;
+      }
+
+      .sticky-hero--media-is-fixed.sticky-hero--overlay-layer
+        .sticky-hero__media::after {
+        opacity: 0.65;
+      }
+
+      .sticky-hero--media-is-fixed.sticky-hero--scale .sticky-hero__media {
+        transform: scale(0.9);
+      }
+
+      .sticky-hero__video {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+      }
+      .sticky-hero__video video {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translateX(-50%) translateY(-50%);
+        display: block;
+        min-height: 100%;
+        min-width: 100%;
+        height: auto;
+        width: auto;
+        max-width: none;
+      }
+
+      .sticky-hero__content {
+        position: relative;
+        z-index: 2;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transform: translateZ(0);
+      }
+    </style>
+  </head>
+  <body>
+    <section
+      class="hero bg padding-y-2xl min-height-100vh flex items-center bg-bleu"
+      style="background-image: url(./Zig6.svg)"
+    >
+      <div class="container max-width-adaptive-sm">
+        <div class="flex flex-column gap-xs text-center">
+          <p
+            class="text-sm color-contrast-higher color-opacity-40% text-capitalize"
+            style="color: #20208f"
+          >
+            Présentation
+          </p>
+          <h1 class="DODO" style="color: #20208f">Design System</h1>
+          <p class="line-height-lg" style="color: #20208f">Septembre 2025</p>
+        </div>
+      </div>
+    </section>
+
+    <div
+      id="section-0"
+      class="container max-width-sm stack margin-top-xl margin-bottom-xl"
+    >
+      <div class="text-component line-height-lg v-space-md">
+        <h2 id="️table-des-matières">🗂️ Table des matières</h2>
+        <ol>
+          <li>
+            <a href="#-définition-leadership--vision"
+              >🧠 Définition, Mission &amp; Leadership</a
+            >
+          </li>
+          <li>
+            <a
+              href="#-chercher-du-sens--principes-fondateurs-du-design-system-chez-cdiscount"
+              >🌱 Principes Fondateurs</a
+            >
+            <ul>
+              <li>
+                <a href="#-chatgpt-cest-quoi-le-discount-"
+                  >💡 ChatGPT: c'est quoi le Discount ?</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#-les-5-principes-fondateurs-du-design-system-cdiscount"
+                  >🌱 Les 5 principes fondateurs</a
+                >
+              </li>
+            </ul>
+          </li>
+          <li>
+            <a href="#des-implémentations-éclatées">📈 État des Lieux</a>
+            <ul>
+              <li><a href="#nos-fondations">Des fondations</a></li>
+              <li><a href="#un-archipel-de-silos">Un archipel de silos</a></li>
+              <li>
+                <a href="#inventaire-des-composants-par-équipe"
+                  >Inventaire par équipe</a
+                >
+              </li>
+              <li>
+                <a href="#analyse-cross-équipes">Analyse cross-équipes</a>
+              </li>
+              <li><a href="#impact-économique">Impact Économique</a></li>
+            </ul>
+          </li>
+          <li>
+            <a href="#-recommandations-stratégiques"
+              >📌 Recommandations Stratégiques</a
+            >
+            <ul>
+              <li>
+                <a href="#1-penser-produit-pas-seulement-bibliothèque"
+                  >1. Penser Produit</a
+                >
+              </li>
+              <li>
+                <a href="#2-créer-une-gouvernance-distribuée"
+                  >2. Gouvernance distribuée</a
+                >
+              </li>
+              <li>
+                <a href="#3-assurer-laccessibilit%C3%A9-en-continu"
+                  >3. Accessibilité continue</a
+                >
+              </li>
+              <li>
+                <a href="#4-investir-dans-la-documentation-comme-interface"
+                  >4. Documentation</a
+                >
+              </li>
+              <li>
+                <a href="#5-créer-des-incitations-dadoption"
+                  >5. Incitations d’adoption</a
+                >
+              </li>
+              <li>
+                <a href="#6-ne-pas-attendre-la-perfection-pour-déployer"
+                  >6. Itérer rapidement</a
+                >
+              </li>
+            </ul>
+          </li>
+          <li>
+            <a href="#️-proposition-de-plan">🗺️ Proposition de Plan</a>
+            <ul>
+              <li><a href="#1-documentation">1. Documentation</a></li>
+            </ul>
+          </li>
+          <li>
+            <a href="#-recommandations-techniques"
+              >🎯 Recommandations Techniques</a
+            >
+            <ul>
+              <li><a href="#choix-techniques-à-faire">Choix techniques</a></li>
+              <li>
+                <a href="#proposition-de-stack-technique"
+                  >Proposition de stack</a
+                >
+              </li>
+            </ul>
+          </li>
+          <li>
+            <a href="#️-arguments-clés">🎛️ Arguments Clés</a>
+            <ul>
+              <li><a href="#risque-maîtrisé">Risque Maîtrisé</a></li>
+              <li><a href="#impact-utilisateur">Impact Utilisateur</a></li>
+              <li><a href="#compétitivité">Compétitivité</a></li>
+            </ul>
+          </li>
+        </ol>
+      </div>
+    </div>
+
+    <section
+      id="leadership-vision"
+      class="sticky-hero sticky-hero--scale margin-bottom-xl js-sticky-hero"
+    >
+      <div
+        class="sticky-hero__media bg-orange"
+        style="background-image: url(./Zig3.svg)"
+        aria-hidden="true"
+      ></div>
+
+      <div class="sticky-hero__content">
+        <div class="container max-width-sm text-component">
+          <h1 class="DODO bleu">Le design system comme language</h1>
+        </div>
+      </div>
+    </section>
+
+    <div class="container max-width-sm stack margin-top-xl margin-bottom-xl">
+      <div class="text-component line-height-lg v-space-md">
+        <h2 id="-définition-leadership--vision">
+          Définition, Mission & Leadership
+        </h2>
+        <p>
+          Le design system n’est pas simplement une bibliothèque de composants
+          ou des templates Figma, mais un levier structurant pour transformer la
+          culture produit de Cdiscount. Il est l’expression collective de la
+          marque : cohérence, accessibilité, rapidité d’innovation.
+        </p>
+        <p>
+          Notre mission : construire une plateforme d’interface partagée,
+          évolutive, et inclusive qui parle à chaque équipe métier, technique,
+          et au client final.
+        </p>
+        <p>
+          Trop souvent, les design systems sont considérés comme de simples
+          outils pour développeurs ou des bibliothèques Figma, alors qu’ils
+          devraient être de véritables contrats transverses entre métiers.
+        </p>
+        <h3 id="les-composants-clés-dun-design-system-sont-">
+          les composants clés d'un design system sont :
+        </h3>
+        <ul class="list list--ul">
+          <li>
+            <strong>Les tokens</strong> : unités de valeur qui définissent les
+            styles (couleurs, typographies, espacements) de manière cohérente.
+          </li>
+          <li>
+            <strong>Les composants UI</strong> : éléments réutilisables
+            (boutons, formulaires, modales) qui respectent les guidelines
+            établies.
+          </li>
+          <li>
+            <strong>Les patterns</strong> : solutions éprouvées à des problèmes
+            de design récurrents, facilitant la création d'interfaces
+            cohérentes.
+          </li>
+          <li>
+            <strong>La documentation</strong> : guides clairs et accessibles
+            pour aider les équipes à comprendre et à utiliser le design system
+            efficacement.
+          </li>
+        </ul>
+        <h3 id="les-personnes-clés-dun-design-system-sont-">
+          les personnes clés d'un design system sont :
+        </h3>
+        <ul class="list list--ul">
+          <li>
+            <strong>Les designers</strong> : responsables de la création et de
+            l'évolution du langage visuel.
+          </li>
+          <li>
+            <strong>Les développeurs</strong> : garants de l'implémentation
+            technique et de la qualité des composants.
+          </li>
+          <li>
+            <strong>Les chefs de produit</strong> : veillent à ce que le design
+            system réponde aux besoins des utilisateurs et des objectifs
+            business.
+          </li>
+          <li>
+            <strong>L'équipe marketing</strong> : assure la cohérence de la
+            marque à travers tous les points de contact.
+          </li>
+        </ul>
+        <h3 id="en-somme">En somme</h3>
+        <blockquote>
+          <p>
+            <em
+              >"Une librairie est un outil, un design system est un langage"</em
+            >
+          </p>
+        </blockquote>
+        <p>
+          Un vrai design system vit à l’intersection entre
+          <strong>flexibilité</strong> et <strong>cohérence</strong>, où la
+          <strong>collaboration</strong> — et non le contrôle — est le principe
+          fondamental.
+        </p>
+        <blockquote>
+          <p>
+            <em
+              >"Un Design System n'est pas juste une collection de composants,
+              c'est la <strong>constitution visuelle</strong> de Cdiscount. Il
+              définit comment nous nous exprimons auprès de nos clients, peu
+              importe la surface d'interaction."</em
+            >
+          </p>
+        </blockquote>
+        <p>
+          Pour qu’un design system survive au-delà de sa première version :<br />
+          👉 Commencez par un langage commun.<br />
+          👉 Formalisez l’intention via des tokens et des variantes.<br />
+          👉 Investissez dans la relation entre design et développement.
+        </p>
+        <p>
+          Un bouton n’est jamais “juste un bouton” : c’est le reflet de la
+          culture produit de l’entreprise.
+        </p>
+      </div>
+    </div>
+
+    <section
+      id="leadership-vision"
+      class="sticky-hero sticky-hero--scale margin-bottom-xl js-sticky-hero"
+    >
+      <div
+        class="sticky-hero__media bg-jaune"
+        style="background-image: url(./Zig4.svg)"
+        aria-hidden="true"
+      ></div>
+
+      <div class="sticky-hero__content">
+        <div class="container max-width-sm text-component">
+          <h1 class="DODO rouge">Donner du sens</h1>
+        </div>
+      </div>
+    </section>
+
+    <div class="container max-width-sm stack margin-top-xl margin-bottom-xl">
+      <div class="text-component line-height-lg v-space-md">
+        <h2
+          id="-chercher-du-sens--principes-fondateurs-du-design-system-chez-cdiscount"
+        >
+          🌱 Donner du sens : Principes Fondateurs du Design System Chez
+          Cdiscount
+        </h2>
+        <blockquote>
+          <p>
+            Charge aux Designers de
+            <strong>définir et d'animer le langage visuel</strong>, voici un
+            proposition de principes fondateurs.
+          </p>
+        </blockquote>
+
+        <p>Voici quelques pistes pour donner du sens à notre Design System :</p>
+        <ul>
+          <li>
+            <strong>Vision :</strong> Pourquoi existez-vous, quelles sont vos
+            valeurs et comment elles guideront l’avenir de votre produit.
+          </li>
+          <li>
+            <strong>Principes de conception :</strong> Les considérations qui
+            guident votre pratique. Elles définissent votre approche
+            philosophique du design et vous aident dans vos décisions
+            quotidiennes.
+          </li>
+          <li>
+            <strong>Ton de voix :</strong> Un ton clair définit la manière dont
+            vous vous adressez à votre public à chaque étape de son parcours,
+            l’aidant à atteindre ses objectifs.
+          </li>
+          <li>
+            <strong>Terminologie :</strong> Créez les termes et expressions
+            standard qui doivent être conservés tout au long de l’expérience
+            utilisateur, accélérant ainsi le processus de conception et unifiant
+            votre discours.
+          </li>
+          <li>
+            <strong>Ressources de marque :</strong> L’utilisation d’un ensemble
+            cohérent de ressources de marque harmonise l’expérience utilisateur
+            de vos produits et de vos campagnes marketing. Ces ressources
+            comprennent votre logo, vos polices, vos icônes, vos illustrations,
+            etc.
+          </li>
+        </ul>
+
+        <h3 id="-chatgpt-cest-quoi-le-discount-">
+          💡 ChatGPT c'est quoi le Discount ?
+        </h3>
+        <p>
+          <em
+            >Le discount, à première vue, semble être une simple affaire de prix
+            cassés. Mais derrière l'étiquette barrée et le "moins cher", il se
+            cache une véritable philosophie de l'accès, de la démocratisation de
+            la consommation, voire une forme moderne de justice sociale.</em
+          >
+        </p>
+        <ol>
+          <li>
+            <p>
+              <strong>Le prix comme vecteur d’égalité</strong><br />
+              Dans une société marquée par les inégalités, le discount remet le
+              pouvoir d’achat entre les mains du plus grand nombre. Il permet à
+              des familles modestes d’acheter ce qui, jadis, était réservé à une
+              élite : électroménager, vêtements de marque, loisirs
+              numériques.<br />
+              ➡️ Moins cher, mais pas moins digne.
+            </p>
+          </li>
+          <li>
+            <p>
+              <strong>L’économie de la rationalité</strong><br />
+              Le discount valorise l’intelligence du choix plutôt que l’apparat.
+              Il parle à celles et ceux qui achètent par besoin, pas par vanité.
+              Ce n’est pas refuser la qualité, mais refuser de payer pour ce qui
+              ne se mange pas, ne s’utilise pas, ne dure pas.<br />
+              ➡️ Pourquoi payer plus pour l'emballage ?
+            </p>
+          </li>
+          <li>
+            <p>
+              <strong>Minimalisme matérialiste</strong><br />
+              À l’inverse du luxe ostentatoire, le discount célèbre un
+              matérialisme sobre : des objets utiles, fonctionnels, qui
+              remplissent leur mission sans détour.<br />
+              ➡️ Une cafetière fait du café. C’est tout ce qu’on lui demande.
+            </p>
+          </li>
+          <li>
+            <p>
+              <strong>Le discount, c’est politique</strong><br />
+              Faire le choix du discount, c’est parfois faire un geste militant
+              : ne pas financer les marges excessives, refuser l’obsolescence
+              programmée, favoriser des circuits courts ou des marques
+              alternatives.<br />
+              ➡️ C’est consommer moins cher et plus librement.
+            </p>
+          </li>
+          <li>
+            <p>
+              <strong>Entre contrainte et opportunité</strong><br />
+              Le discount, enfin, naît souvent d’un manque : on y vient par
+              nécessité. Mais il peut aussi devenir une culture du bon sens, une
+              manière d’acheter autrement, de consommer mieux, de ne pas
+              confondre valeur et coût.
+            </p>
+          </li>
+        </ol>
+        <blockquote>
+          <p>
+            En somme, le discount, ce n’est pas seulement une affaire de prix.
+            C’est une manière de penser, de consommer, de résister.<br />
+            C’est l’art de faire beaucoup avec peu, sans rien céder à la
+            dignité. – <cite>Chat GPT</cite>
+          </p>
+        </blockquote>
+        <h3 id="-les-5-principes-fondateurs-du-design-system-cdiscount">
+          🌱 Les 5 principes fondateurs du Design System Cdiscount
+        </h3>
+        <h4 id="1--accessibilité">1. 🟢 Accessibilité</h4>
+        <blockquote>
+          <p><em>"L’accès est un droit, pas un luxe."</em></p>
+        </blockquote>
+        <p>
+          Un bon design system
+          <strong>démocratise la création d’interfaces</strong> :
+        </p>
+        <ul>
+          <li>Accessible techniquement et fonctionnellement</li>
+          <li>Inclusif pour tous les profils utilisateurs</li>
+          <li>Compréhensible par toutes les équipes</li>
+        </ul>
+        <p>
+          ✅
+          <strong
+            >Nous concevons des composants que tout le monde peut utiliser,
+            configurer, maintenir.</strong
+          >
+        </p>
+        <h4 id="2--clarté">2. 🔵 Clarté</h4>
+        <blockquote>
+          <p><em>"La simplicité est un choix d’intelligence."</em></p>
+        </blockquote>
+        <p>
+          Nous évitons le surdesign, les props inutiles et les systèmes trop
+          abstraits.<br />
+          Clarté du nommage, clarté du code, clarté du rendu.
+        </p>
+        <p>
+          ✅
+          <strong
+            >Un composant bien pensé est explicite, lisible, évident.</strong
+          >
+        </p>
+        <h4 id="3--fonction">3. 🟣 Fonction</h4>
+        <blockquote>
+          <p><em>"La forme suit l’usage."</em></p>
+        </blockquote>
+        <p>
+          Un design system doit répondre à des besoins réels, pas à des
+          tendances.<br />
+          Chaque composant existe pour résoudre un cas d’usage, pas pour décorer
+          l’interface.
+        </p>
+        <p>
+          ✅
+          <strong
+            >Un bouton doit ressembler à un bouton. Et se comporter comme
+            tel.</strong
+          >
+        </p>
+        <h4 id="4--autonomie">4. 🟠 Autonomie</h4>
+        <blockquote>
+          <p>
+            <em
+              >"Le système n’est pas là pour centraliser, mais pour
+              libérer."</em
+            >
+          </p>
+        </blockquote>
+        <p>
+          Notre design system n’est pas une tour d’ivoire. Il permet aux équipes
+          de :
+        </p>
+        <ul>
+          <li>Comprendre les règles</li>
+          <li>Contribuer facilement</li>
+          <li>Adapter intelligemment</li>
+        </ul>
+        <p>
+          ✅
+          <strong
+            >Le système est un levier d’autonomie, pas un outil de
+            contrôle.</strong
+          >
+        </p>
+        <h4 id="5--sobriété">5. 🟡 Sobriété</h4>
+        <blockquote>
+          <p>
+            <em
+              >"Faire mieux avec moins, sans jamais renoncer à la qualité."</em
+            >
+          </p>
+        </blockquote>
+        <p>Inspiré par l’esprit du discount, notre design system valorise :</p>
+        <ul>
+          <li>La performance</li>
+          <li>L’utilité</li>
+          <li>La réutilisation</li>
+          <li>La durabilité</li>
+        </ul>
+        <p>✅ <strong>Moins de complexité, plus de valeur.</strong></p>
+      </div>
+    </div>
+
+    <section
+      id="etat-des-lieux"
+      class="sticky-hero sticky-hero--scale margin-bottom-xl js-sticky-hero"
+    >
+      <div
+        class="sticky-hero__media bg-rose"
+        style="background-image: url(./Zig5.svg)"
+        aria-hidden="true"
+      ></div>
+
+      <div class="sticky-hero__content">
+        <div class="container max-width-sm text-component">
+          <h1 class="DODO bleu">État des Lieux</h1>
+        </div>
+      </div>
+    </section>
+
+    <div class="container max-width-sm stack margin-top-xl margin-bottom-xl">
+      <div class="text-component line-height-lg v-space-md">
+        <h2 id="des-implémentations-éclatées">Des implémentations éclatées</h2>
+        <p>
+          L'audit des ressources existantes révèle une base riche mais éclatée.
+          Chaque équipe a développé ses propres outils, créant des "dialectes"
+          de design plutôt qu'un langage commun.
+        </p>
+        <h3 id="nos-fondations">Nos fondations</h3>
+        <p>
+          Nous disposons d'une fondation design centralisée, ce qui est un
+          excellent point de départ :
+        </p>
+        <ul>
+          <li>
+            <strong>Charte graphique</strong> :
+            <a href="./CDiscount_Charte_v2 (1).pdf">Charte graphique [PDF]</a>
+          </li>
+          <li>
+            <strong>Documentation conceptuelle</strong> :
+            <a href="https://zeroheight.com/6725b656e/p/46af09">ZeroHeight</a>
+          </li>
+          <li>
+            <strong>Source de vérité UI</strong> :
+            <a
+              href="https://www.figma.com/design/63OaSXCupkrEv2ckX3NVzc/%F0%9F%8E%AFC-Atomic---Variables---Components?m=auto&amp;node-id=23502-301401&amp;t=g0T7O0HKKRbizj6f-1"
+              >Fichier Figma</a
+            >
+          </li>
+          <li>
+            <strong>Système d'icônes unifié</strong> :
+            <a href="https://phosphoricons.com/">Phosphor Icons</a>
+          </li>
+          <li>
+            <strong>Tokens partagés</strong> :
+            <a
+              href="https://storybook-front.cdiscount.io/storybooks/mobility/design-tokens/?path=/docs/responsive--docs"
+              >Storybook Design Tokens</a
+            >
+          </li>
+        </ul>
+        <p>
+          Toutes les équipes (ou presque) se servent des design tokens, suivent
+          les recommandations du design system et utilisent la bibliothèque
+          d'icônes Phosphor.
+        </p>
+        <h3 id="un-archipel-de-silos">Un Archipel de silos</h3>
+        <ul>
+          <li>
+            <strong>Équipe Front PC (obsolète)</strong>
+            <ul>
+              <li>
+                Repos Front :
+                <a
+                  href="http://tfs.cdbdx.biz:8080/tfs/DefaultCollection/Front-PC/_git/Front-PC"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >http://tfs.cdbdx.biz:8080/tfs/DefaultCollection/Front-PC/_git/Front-PC</a
+                >
+              </li>
+              <li>
+                Repos Ressources :
+                <a
+                  href="http://tfs.cdbdx.biz:8080/tfs/DefaultCollection/Front-PC/_git/Front.Ressources"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >http://tfs.cdbdx.biz:8080/tfs/DefaultCollection/Front-PC/_git/Front.Ressources</a
+                >
+              </li>
+              <li>
+                Maquettes statiques :
+                <a
+                  href="https://a04app.cdweb.biz/front-pc/maquettes/maquettes/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >a04app.cdweb.biz/front-pc/maquettes/maquettes/</a
+                >
+              </li>
+              <li>
+                Styleguide statique :
+                <a
+                  href="https://a04app.cdweb.biz/front-pc/maquettes/styleguide/index.html"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >a04app.cdweb.biz/front-pc/maquettes/styleguide/index.html</a
+                >
+              </li>
+              <li>
+                <em>Stack : C# + Composant en VanillaJS / CSS / HTML.</em>
+              </li>
+              <li>
+                ⚠️ :
+                <em
+                  >Ressources décorrélées du front, avec ses propres composants
+                  qui réinventent probablement ce qui existe ailleurs.</em
+                >
+              </li>
+            </ul>
+          </li>
+          <li>
+            <strong>Équipe Order</strong>
+            <ul>
+              <li>
+                Repos Front :
+                <a
+                  href="http://tfs.cdbdx.biz:8080/tfs/DefaultCollection/CheckOut/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >http://tfs.cdbdx.biz:8080/tfs/DefaultCollection/CheckOut/</a
+                >
+              </li>
+              <li>
+                Repos Ressources :
+                <a
+                  href="http://tfs.cdbdx.biz:8080/tfs/DefaultCollection/CheckOut/_git/resources"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >http://tfs.cdbdx.biz:8080/tfs/DefaultCollection/CheckOut/_git/resources</a
+                >
+              </li>
+              <li>
+                Maquettes statiques :
+                <a
+                  href="https://a04app.cdweb.biz/checkout/resources/samples/home.html"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >a04app.cdweb.biz/checkout/resources/samples/</a
+                >
+              </li>
+              <li><em>Stack : C# + React + dépendance à Bootstrap.</em></li>
+              <li>
+                ⚠️ : <em>Override bootstrap, risque élevé d'incohérences.</em>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <strong>Équipe Mobile</strong>
+            <ul>
+              <li>
+                Repos Front SSR :
+                <a
+                  href="http://tfs.cdbdx.biz:8080/tfs/DefaultCollection/FrontMobile/_git/react-ssr"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >http://tfs.cdbdx.biz:8080/tfs/DefaultCollection/FrontMobile/_git/react-ssr</a
+                >
+              </li>
+              <li>
+                Repos Ressources UI :
+                <a
+                  href="http://tfs.cdbdx.biz:8080/tfs/DefaultCollection/Mobility/_git/ui"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >http://tfs.cdbdx.biz:8080/tfs/DefaultCollection/Mobility/_git/ui</a
+                >
+              </li>
+              <li>
+                Storybook pour l'application SSR :
+                <a
+                  href="https://storybook-front.cdiscount.io/storybooks/frontmobile/react-ssr/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >storybook-front.cdiscount.io/storybooks/frontmobile/react-ssr/</a
+                >
+              </li>
+              <li>
+                Storybook pour la librairie UI :
+                <a
+                  href="https://storybook-front.cdiscount.io/storybooks/mobility/ui/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >storybook-front.cdiscount.io/storybooks/mobility/ui/</a
+                >
+              </li>
+              <li>
+                ⚠️ :
+                <em
+                  >Fragmentation au sein même de l'équipe, duplication
+                  potentielle entre la lib et l'app.</em
+                >
+              </li>
+            </ul>
+          </li>
+          <li>
+            <strong>Équipe Customer Zone</strong>
+            <ul>
+              <li>
+                Repos Ressources :
+                <a
+                  href="http://tfs.cdbdx.biz:8080/tfs/DefaultCollection/FrontCustomerZone/_git/customerzone-resources"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >http://tfs.cdbdx.biz:8080/tfs/DefaultCollection/FrontCustomerZone/_git/customerzone-resources</a
+                >
+              </li>
+              <li>
+                Repos Front :
+                <a
+                  href="http://tfs.cdbdx.biz:8080/tfs/DefaultCollection/FrontCustomerZone/_git/customerzone-site"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >http://tfs.cdbdx.biz:8080/tfs/DefaultCollection/FrontCustomerZone/_git/customerzone-site</a
+                >
+              </li>
+              <li>
+                Storybook dédié :
+                <a
+                  href="https://storybook-front.cdiscount.io/storybooks/frontcustomerzone/customerzone-resources/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >storybook-front.cdiscount.io/storybooks/frontcustomerzone/customerzone-resources/</a
+                >
+              </li>
+              <li><em>Stack : C# + Web Components + Vanilla CSS.</em></li>
+              <li>
+                ⚠️ :
+                <em
+                  >Ressources décorrélées du front, avec ses propres composants
+                  qui réinventent probablement ce qui existe ailleurs.</em
+                >
+              </li>
+            </ul>
+          </li>
+        </ul>
+        <h4 id="inventaire-des-composants-par-équipe">
+          Inventaire des Composants par Équipe
+        </h4>
+        <p>
+          Pour mesurer l'ampleur de la fragmentation, voici l'inventaire
+          détaillé des composants développés par chaque équipe :
+        </p>
+        <div class="vflow vflow--md">
+          <div
+            class="vflow vflow--md margin-bottom-md padding-md border radius-md"
+          >
+            <h5 id="customer-zone---36-composants">
+              Customer Zone - 36 composants
+            </h5>
+            <ul>
+              <li>
+                <strong>15 Web Components</strong> Composants complets avec
+                logique JavaScript, templates HTML, styles CSS et tests
+              </li>
+              <li>
+                <strong>21 CSS Components</strong> Composants purement CSS sans
+                logique JavaScript
+              </li>
+              <li><strong>Total : 36 composants</strong></li>
+            </ul>
+            <details>
+              <summary>Voir l'inventaire détaillé</summary>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Nom du composant</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>alert</strong></td>
+                    <td>Web Component</td>
+                    <td>Composant d'alerte avec JS, CSS, HTML et tests</td>
+                  </tr>
+                  <tr>
+                    <td><strong>alert-container</strong></td>
+                    <td>Web Component</td>
+                    <td>Conteneur d'alertes avec JS, CSS, HTML et tests</td>
+                  </tr>
+                  <tr>
+                    <td><strong>ask-questions</strong></td>
+                    <td>Web Component</td>
+                    <td>Composant de questions avec JS, CSS, HTML et tests</td>
+                  </tr>
+                  <tr>
+                    <td><strong>badge</strong></td>
+                    <td>Web Component</td>
+                    <td>Composant badge avec JS, CSS, HTML</td>
+                  </tr>
+                  <tr>
+                    <td><strong>button</strong></td>
+                    <td>Web Component</td>
+                    <td>Composant bouton avec JS, CSS, HTML et tests</td>
+                  </tr>
+                  <tr>
+                    <td><strong>container</strong></td>
+                    <td>Web Component</td>
+                    <td>Composant conteneur avec JS, CSS, HTML et tests</td>
+                  </tr>
+                  <tr>
+                    <td><strong>delivery-infos</strong></td>
+                    <td>Web Component</td>
+                    <td>
+                      Informations de livraison avec JS, CSS, HTML et tests
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><strong>input-field</strong></td>
+                    <td>Web Component</td>
+                    <td>Champ de saisie avec JS, CSS, HTML</td>
+                  </tr>
+                  <tr>
+                    <td><strong>label</strong></td>
+                    <td>Web Component</td>
+                    <td>Composant label avec JS, CSS, HTML</td>
+                  </tr>
+                  <tr>
+                    <td><strong>layer</strong></td>
+                    <td>Web Component</td>
+                    <td>Composant layer/couche avec JS, CSS, HTML</td>
+                  </tr>
+                  <tr>
+                    <td><strong>popin</strong></td>
+                    <td>Web Component</td>
+                    <td>Composant popup/modal avec JS, CSS, HTML</td>
+                  </tr>
+                  <tr>
+                    <td><strong>progress-bar</strong></td>
+                    <td>Web Component</td>
+                    <td>Barre de progression avec JS, CSS, HTML</td>
+                  </tr>
+                  <tr>
+                    <td><strong>sale-folder-card</strong></td>
+                    <td>Web Component</td>
+                    <td>Carte de dossier de vente avec JS, CSS, HTML</td>
+                  </tr>
+                  <tr>
+                    <td><strong>select</strong></td>
+                    <td>Web Component</td>
+                    <td>Composant select avec JS, CSS, HTML</td>
+                  </tr>
+                  <tr>
+                    <td><strong>text-area</strong></td>
+                    <td>Web Component</td>
+                    <td>Zone de texte avec JS, CSS, HTML</td>
+                  </tr>
+                  <tr>
+                    <td><strong>acces-item</strong></td>
+                    <td>CSS Component</td>
+                    <td>Styles CSS pour élément d'accès</td>
+                  </tr>
+                  <tr>
+                    <td><strong>accordion</strong></td>
+                    <td>CSS Component</td>
+                    <td>Styles CSS pour accordéon</td>
+                  </tr>
+                  <tr>
+                    <td><strong>ad-product</strong></td>
+                    <td>CSS Component</td>
+                    <td>Styles CSS pour publicité produit</td>
+                  </tr>
+                  <tr>
+                    <td><strong>ask-questions</strong></td>
+                    <td>CSS Component</td>
+                    <td>Styles CSS pour questions (version CSS)</td>
+                  </tr>
+                  <tr>
+                    <td><strong>autocomplete</strong></td>
+                    <td>CSS Component</td>
+                    <td>Styles CSS pour autocomplétion</td>
+                  </tr>
+                  <tr>
+                    <td><strong>card</strong></td>
+                    <td>CSS Component</td>
+                    <td>Styles CSS pour cartes</td>
+                  </tr>
+                  <tr>
+                    <td><strong>carousel</strong></td>
+                    <td>CSS Component</td>
+                    <td>Styles CSS pour carrousel</td>
+                  </tr>
+                  <tr>
+                    <td><strong>container-tab</strong></td>
+                    <td>CSS Component</td>
+                    <td>Styles CSS pour onglets de conteneur</td>
+                  </tr>
+                  <tr>
+                    <td><strong>container</strong></td>
+                    <td>CSS Component</td>
+                    <td>Styles CSS pour conteneur (version CSS)</td>
+                  </tr>
+                  <tr>
+                    <td><strong>layer</strong></td>
+                    <td>CSS Component</td>
+                    <td>Styles CSS pour layer (version CSS)</td>
+                  </tr>
+                  <tr>
+                    <td><strong>litigation</strong></td>
+                    <td>CSS Component</td>
+                    <td>Styles CSS pour litige</td>
+                  </tr>
+                  <tr>
+                    <td><strong>old-extend-popin</strong></td>
+                    <td>CSS Component</td>
+                    <td>Styles CSS pour ancienne popup étendue</td>
+                  </tr>
+                  <tr>
+                    <td><strong>order-block</strong></td>
+                    <td>CSS Component</td>
+                    <td>Styles CSS pour bloc de commande</td>
+                  </tr>
+                  <tr>
+                    <td><strong>placeholder-base</strong></td>
+                    <td>CSS Component</td>
+                    <td>Styles CSS pour placeholder de base</td>
+                  </tr>
+                  <tr>
+                    <td><strong>placeholder-product</strong></td>
+                    <td>CSS Component</td>
+                    <td>Styles CSS pour placeholder produit</td>
+                  </tr>
+                  <tr>
+                    <td><strong>popin-information</strong></td>
+                    <td>CSS Component</td>
+                    <td>Styles CSS pour popup d'information</td>
+                  </tr>
+                  <tr>
+                    <td><strong>push-call</strong></td>
+                    <td>CSS Component</td>
+                    <td>Styles CSS pour appel push</td>
+                  </tr>
+                  <tr>
+                    <td><strong>push-notification</strong></td>
+                    <td>CSS Component</td>
+                    <td>Styles CSS pour notification push</td>
+                  </tr>
+                  <tr>
+                    <td><strong>reviews-stars</strong></td>
+                    <td>CSS Component</td>
+                    <td>Styles CSS pour étoiles d'avis</td>
+                  </tr>
+                  <tr>
+                    <td><strong>toggle</strong></td>
+                    <td>CSS Component</td>
+                    <td>Styles CSS pour bouton toggle</td>
+                  </tr>
+                  <tr>
+                    <td><strong>waiting-overlay</strong></td>
+                    <td>CSS Component</td>
+                    <td>Styles CSS pour overlay d'attente</td>
+                  </tr>
+                </tbody>
+              </table>
+            </details>
+          </div>
+          <div
+            class="vflow vflow--md margin-bottom-md padding-md border radius-md"
+          >
+            <h5 id="mobile---25-composants-actifs--15-dépréciés">
+              Mobile - 25 composants actifs + ~15 dépréciés
+            </h5>
+            <ul>
+              <li><strong>Total des packages</strong> : 65 packages</li>
+              <li><strong>Composants avec stories</strong> : 45 composants</li>
+            </ul>
+            <details>
+              <summary>Voir l'inventaire détaillé</summary>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Composant</th>
+                    <th>Catégorie</th>
+                    <th>État</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>@cdiscount/ui-accordion</strong></td>
+                    <td>Navigation</td>
+                    <td>Deprecated</td>
+                  </tr>
+                  <tr>
+                    <td><strong>@cdiscount/ui-alert</strong></td>
+                    <td>Feedback</td>
+                    <td>En développement</td>
+                  </tr>
+                  <tr>
+                    <td><strong>@cdiscount/ui-anchor</strong></td>
+                    <td>Navigation</td>
+                    <td>Actif</td>
+                  </tr>
+                  <tr>
+                    <td><strong>@cdiscount/ui-badge</strong></td>
+                    <td>Data Display</td>
+                    <td>En développement</td>
+                  </tr>
+                  <tr>
+                    <td><strong>@cdiscount/ui-banner</strong></td>
+                    <td>Feedback</td>
+                    <td>En développement</td>
+                  </tr>
+                  <tr>
+                    <td><strong>@cdiscount/ui-block</strong></td>
+                    <td>Container</td>
+                    <td>Deprecated</td>
+                  </tr>
+                  <tr>
+                    <td><strong>@cdiscount/ui-breadcrumb</strong></td>
+                    <td>Navigation</td>
+                    <td>Actif</td>
+                  </tr>
+                  <tr>
+                    <td><strong>@cdiscount/ui-breakpoints</strong></td>
+                    <td>Foundation</td>
+                    <td>Actif</td>
+                  </tr>
+                  <tr>
+                    <td><strong>@cdiscount/ui-button</strong></td>
+                    <td>Navigation</td>
+                    <td>Deprecated</td>
+                  </tr>
+                  <tr>
+                    <td><strong>@cdiscount/ui-carousel</strong></td>
+                    <td>Data Display</td>
+                    <td>Actif</td>
+                  </tr>
+                  <tr>
+                    <td><strong>@cdiscount/ui-category-icons</strong></td>
+                    <td>Icons</td>
+                    <td>Actif</td>
+                  </tr>
+                  <tr>
+                    <td><strong>@cdiscount/ui-click-area</strong></td>
+                    <td>Container</td>
+                    <td>Deprecated</td>
+                  </tr>
+                  <tr>
+                    <td><strong>@cdiscount/ui-collapse</strong></td>
+                    <td>Layout</td>
+                    <td>En développement</td>
+                  </tr>
+                  <tr>
+                    <td><strong>@cdiscount/ui-collapsible</strong></td>
+                    <td>Layout</td>
+                    <td>Actif</td>
+                  </tr>
+                  <tr>
+                    <td><strong>@cdiscount/ui-colors</strong></td>
+                    <td>Foundation</td>
+                    <td>Deprecated</td>
+                  </tr>
+                  <tr>
+                    <td><strong>@cdiscount/ui-container</strong></td>
+                    <td>Layout</td>
+                    <td>Actif</td>
+                  </tr>
+                  <tr>
+                    <td><strong>@cdiscount/ui-countdown</strong></td>
+                    <td>Data Display</td>
+                    <td>Actif</td>
+                  </tr>
+                  <tr>
+                    <td><strong>@cdiscount/ui-details</strong></td>
+                    <td>Data Display</td>
+                    <td>Mobile</td>
+                  </tr>
+                  <tr>
+                    <td><strong>@cdiscount/ui-dialog</strong></td>
+                    <td>Feedback</td>
+                    <td>Actif</td>
+                  </tr>
+                  <tr>
+                    <td><strong>@cdiscount/ui-elevation</strong></td>
+                    <td>Foundation</td>
+                    <td>Actif</td>
+                  </tr>
+                  <tr>
+                    <td><strong>@cdiscount/ui-filters</strong></td>
+                    <td>Form</td>
+                    <td>En développement</td>
+                  </tr>
+                  <tr>
+                    <td><strong>@cdiscount/ui-flag</strong></td>
+                    <td>Data Display</td>
+                    <td>En développement</td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <strong>@cdiscount/ui-floating-action-panel</strong>
+                    </td>
+                    <td>Feedback</td>
+                    <td>Deprecated</td>
+                  </tr>
+                  <tr>
+                    <td><strong>@cdiscount/ui-fonts</strong></td>
+                    <td>Foundation</td>
+                    <td>Deprecated</td>
+                  </tr>
+                  <tr>
+                    <td><strong>@cdiscount/ui-form</strong></td>
+                    <td>Form</td>
+                    <td>Nouveau</td>
+                  </tr>
+                  <tr>
+                    <td><strong>@cdiscount/ui-fullscreen-loader</strong></td>
+                    <td>Feedback</td>
+                    <td>Actif</td>
+                  </tr>
+                  <tr>
+                    <td><strong>@cdiscount/ui-generic-error</strong></td>
+                    <td>Feedback</td>
+                    <td>Actif</td>
+                  </tr>
+                  <tr>
+                    <td><strong>@cdiscount/ui-horizontal-rule</strong></td>
+                    <td>Layout</td>
+                    <td>Actif</td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <strong>@cdiscount/ui-horizontal-touch-scroll</strong>
+                    </td>
+                    <td>Layout</td>
+                    <td>Actif</td>
+                  </tr>
+                  <tr>
+                    <td><strong>@cdiscount/ui-html</strong></td>
+                    <td>Foundation</td>
+                    <td>Actif</td>
+                  </tr>
+                  <tr>
+                    <td><strong>@cdiscount/ui-icons</strong></td>
+                    <td>Foundation/Icons</td>
+                    <td>Actif</td>
+                  </tr>
+                  <tr>
+                    <td><strong>@cdiscount/ui-iframe</strong></td>
+                    <td>Container</td>
+                    <td>Deprecated</td>
+                  </tr>
+                  <tr>
+                    <td><strong>@cdiscount/ui-image</strong></td>
+                    <td>Media</td>
+                    <td>Actif</td>
+                  </tr>
+                  <tr>
+                    <td><strong>@cdiscount/ui-image-lister</strong></td>
+                    <td>Data Display</td>
+                    <td>Actif</td>
+                  </tr>
+                  <tr>
+                    <td><strong>@cdiscount/ui-input-field</strong></td>
+                    <td>Form</td>
+                    <td>Deprecated</td>
+                  </tr>
+                  <tr>
+                    <td><strong>@cdiscount/ui-label</strong></td>
+                    <td>Form</td>
+                    <td>Deprecated</td>
+                  </tr>
+                  <tr>
+                    <td><strong>@cdiscount/ui-layer</strong></td>
+                    <td>Data Display</td>
+                    <td>Nouveau</td>
+                  </tr>
+                  <tr>
+                    <td><strong>@cdiscount/ui-link</strong></td>
+                    <td>Navigation</td>
+                    <td>Deprecated</td>
+                  </tr>
+                  <tr>
+                    <td><strong>@cdiscount/ui-loader</strong></td>
+                    <td>Feedback</td>
+                    <td>Actif</td>
+                  </tr>
+                  <tr>
+                    <td><strong>@cdiscount/ui-loading-placeholder</strong></td>
+                    <td>Feedback</td>
+                    <td>Actif</td>
+                  </tr>
+                  <tr>
+                    <td><strong>@cdiscount/ui-menu</strong></td>
+                    <td>Navigation</td>
+                    <td>Actif</td>
+                  </tr>
+                  <tr>
+                    <td><strong>@cdiscount/ui-menu-button</strong></td>
+                    <td>Navigation</td>
+                    <td>Actif</td>
+                  </tr>
+                  <tr>
+                    <td><strong>@cdiscount/ui-modal-bottom-sheet</strong></td>
+                    <td>Feedback</td>
+                    <td>Actif</td>
+                  </tr>
+                  <tr>
+                    <td><strong>@cdiscount/ui-no-script</strong></td>
+                    <td>Foundation</td>
+                    <td>Actif</td>
+                  </tr>
+                  <tr>
+                    <td><strong>@cdiscount/ui-no-wrap</strong></td>
+                    <td>Typography</td>
+                    <td>Deprecated</td>
+                  </tr>
+                  <tr>
+                    <td><strong>@cdiscount/ui-notification-chip</strong></td>
+                    <td>Feedback</td>
+                    <td>Actif</td>
+                  </tr>
+                  <tr>
+                    <td><strong>@cdiscount/ui-on-scroll-lazy-load</strong></td>
+                    <td>Layout</td>
+                    <td>Actif</td>
+                  </tr>
+                  <tr>
+                    <td><strong>@cdiscount/ui-pagination</strong></td>
+                    <td>Navigation</td>
+                    <td>Nouveau</td>
+                  </tr>
+                  <tr>
+                    <td><strong>@cdiscount/ui-picture</strong></td>
+                    <td>Media</td>
+                    <td>Nouveau</td>
+                  </tr>
+                  <tr>
+                    <td><strong>@cdiscount/ui-placeholder</strong></td>
+                    <td>Feedback</td>
+                    <td>Actif</td>
+                  </tr>
+                  <tr>
+                    <td><strong>@cdiscount/ui-pop-in</strong></td>
+                    <td>Feedback</td>
+                    <td>Outdated</td>
+                  </tr>
+                  <tr>
+                    <td><strong>@cdiscount/ui-popover</strong></td>
+                    <td>Data Display</td>
+                    <td>Actif</td>
+                  </tr>
+                  <tr>
+                    <td><strong>@cdiscount/ui-quantity-picker</strong></td>
+                    <td>Form</td>
+                    <td>Experimental</td>
+                  </tr>
+                  <tr>
+                    <td><strong>@cdiscount/ui-rating-bar</strong></td>
+                    <td>Data Display</td>
+                    <td>Actif</td>
+                  </tr>
+                  <tr>
+                    <td><strong>@cdiscount/ui-rating-stars</strong></td>
+                    <td>Data Display</td>
+                    <td>Actif</td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <strong>@cdiscount/ui-rating-stars-editable</strong>
+                    </td>
+                    <td>Data Display</td>
+                    <td>Mobile</td>
+                  </tr>
+                  <tr>
+                    <td><strong>@cdiscount/ui-scroller</strong></td>
+                    <td>Layout</td>
+                    <td>Actif</td>
+                  </tr>
+                  <tr>
+                    <td><strong>@cdiscount/ui-section</strong></td>
+                    <td>Layout</td>
+                    <td>Actif</td>
+                  </tr>
+                  <tr>
+                    <td><strong>@cdiscount/ui-skip-link</strong></td>
+                    <td>Navigation</td>
+                    <td>Nouveau</td>
+                  </tr>
+                  <tr>
+                    <td><strong>@cdiscount/ui-slideshow</strong></td>
+                    <td>Media</td>
+                    <td>Actif</td>
+                  </tr>
+                  <tr>
+                    <td><strong>@cdiscount/ui-snackbar</strong></td>
+                    <td>Feedback</td>
+                    <td>Actif</td>
+                  </tr>
+                  <tr>
+                    <td><strong>@cdiscount/ui-social-icons</strong></td>
+                    <td>Icons</td>
+                    <td>Actif</td>
+                  </tr>
+                  <tr>
+                    <td><strong>@cdiscount/ui-spacings</strong></td>
+                    <td>Foundation</td>
+                    <td>Deprecated</td>
+                  </tr>
+                  <tr>
+                    <td><strong>@cdiscount/ui-table</strong></td>
+                    <td>Data Display</td>
+                    <td>Actif</td>
+                  </tr>
+                  <tr>
+                    <td><strong>@cdiscount/ui-tabs</strong></td>
+                    <td>Navigation</td>
+                    <td>Actif</td>
+                  </tr>
+                  <tr>
+                    <td><strong>@cdiscount/ui-template-typescript</strong></td>
+                    <td>Utils</td>
+                    <td>Template</td>
+                  </tr>
+                  <tr>
+                    <td><strong>@cdiscount/ui-text-area</strong></td>
+                    <td>Form</td>
+                    <td>Deprecated</td>
+                  </tr>
+                  <tr>
+                    <td><strong>@cdiscount/ui-toast</strong></td>
+                    <td>Feedback</td>
+                    <td>Deprecated</td>
+                  </tr>
+                  <tr>
+                    <td><strong>@cdiscount/ui-toggle-switch</strong></td>
+                    <td>Form</td>
+                    <td>Mobile</td>
+                  </tr>
+                  <tr>
+                    <td><strong>@cdiscount/ui-typography</strong></td>
+                    <td>Foundation</td>
+                    <td>En développement</td>
+                  </tr>
+                  <tr>
+                    <td><strong>@cdiscount/ui-utils</strong></td>
+                    <td>Utils</td>
+                    <td>Actif</td>
+                  </tr>
+                  <tr>
+                    <td><strong>@cdiscount/ui-variant-selector</strong></td>
+                    <td>Navigation</td>
+                    <td>Mobile</td>
+                  </tr>
+                </tbody>
+              </table>
+            </details>
+          </div>
+          <div
+            class="vflow vflow--md margin-bottom-md padding-md border radius-md"
+          >
+            <h5 id="order---36-composants">Order - 36 composants</h5>
+            <ul>
+              <li><strong>Total des composants</strong> : 36</li>
+              <li><strong>Composants UI</strong> : 22</li>
+              <li><strong>Composants Business</strong> : 14</li>
+            </ul>
+            <details>
+              <summary>Voir l'inventaire détaillé</summary>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Nom du Composant</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>Alert</strong></td>
+                    <td>UI</td>
+                    <td>Composant d'alerte</td>
+                  </tr>
+                  <tr>
+                    <td><strong>BingMaps</strong></td>
+                    <td>UI</td>
+                    <td>Intégration avec les cartes Bing</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Button</strong></td>
+                    <td>UI</td>
+                    <td>Composant bouton</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Carousel</strong></td>
+                    <td>UI</td>
+                    <td>Composant carrousel</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Collapsible</strong></td>
+                    <td>UI</td>
+                    <td>Composant repliable</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Countdown</strong></td>
+                    <td>UI</td>
+                    <td>Composant compte à rebours</td>
+                  </tr>
+                  <tr>
+                    <td><strong>ErrorBoundary</strong></td>
+                    <td>UI</td>
+                    <td>Gestionnaire d'erreurs React</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Filter</strong></td>
+                    <td>UI</td>
+                    <td>Composant de filtre avec sous-composants</td>
+                  </tr>
+                  <tr>
+                    <td><strong>FilterOption</strong></td>
+                    <td>UI</td>
+                    <td>Option de filtre</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Inputs</strong></td>
+                    <td>UI</td>
+                    <td>Conteneur pour les composants d'entrée</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Autocomplete</strong></td>
+                    <td>UI</td>
+                    <td>Champ de saisie avec autocomplétion</td>
+                  </tr>
+                  <tr>
+                    <td><strong>ChoiceGroup</strong></td>
+                    <td>UI</td>
+                    <td>Groupe de choix (radio buttons, checkboxes)</td>
+                  </tr>
+                  <tr>
+                    <td><strong>DateField</strong></td>
+                    <td>UI</td>
+                    <td>Champ de saisie de date</td>
+                  </tr>
+                  <tr>
+                    <td><strong>SelectField</strong></td>
+                    <td>UI</td>
+                    <td>Champ de sélection (dropdown)</td>
+                  </tr>
+                  <tr>
+                    <td><strong>TextField</strong></td>
+                    <td>UI</td>
+                    <td>Champ de texte</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Layer</strong></td>
+                    <td>UI</td>
+                    <td>Composant de couche</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Loader</strong></td>
+                    <td>UI</td>
+                    <td>Composant de chargement</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Overlay</strong></td>
+                    <td>UI</td>
+                    <td>Superposition</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Popin</strong></td>
+                    <td>UI</td>
+                    <td>Fenêtre modale</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Portal</strong></td>
+                    <td>UI</td>
+                    <td>Portail React</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Price</strong></td>
+                    <td>UI</td>
+                    <td>Affichage de prix</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Selectable</strong></td>
+                    <td>UI</td>
+                    <td>Éléments sélectionnables</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Item</strong></td>
+                    <td>UI</td>
+                    <td>Élément sélectionnable</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Selectable</strong></td>
+                    <td>UI</td>
+                    <td>Logique de sélection</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Tooltip</strong></td>
+                    <td>UI</td>
+                    <td>Info-bulle</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Address</strong></td>
+                    <td>Business</td>
+                    <td>Gestion des adresses</td>
+                  </tr>
+                  <tr>
+                    <td><strong>AddressForm</strong></td>
+                    <td>Business</td>
+                    <td>Formulaire d'adresse</td>
+                  </tr>
+                  <tr>
+                    <td><strong>DeliveryChoice</strong></td>
+                    <td>Business</td>
+                    <td>Choix de livraison</td>
+                  </tr>
+                  <tr>
+                    <td><strong>DeliveryChoiceOffer</strong></td>
+                    <td>Business</td>
+                    <td>Offre de livraison</td>
+                  </tr>
+                  <tr>
+                    <td><strong>DeliveryChoiceSubscription</strong></td>
+                    <td>Business</td>
+                    <td>Abonnement livraison</td>
+                  </tr>
+                  <tr>
+                    <td><strong>DeliveryChoiceValidation</strong></td>
+                    <td>Business</td>
+                    <td>Validation choix livraison</td>
+                  </tr>
+                  <tr>
+                    <td><strong>PaymentChoice</strong></td>
+                    <td>Business</td>
+                    <td>Choix de paiement</td>
+                  </tr>
+                  <tr>
+                    <td><strong>PaymentChoiceSelectable</strong></td>
+                    <td>Business</td>
+                    <td>Sélection méthode paiement</td>
+                  </tr>
+                  <tr>
+                    <td><strong>PaymentChoiceValidation</strong></td>
+                    <td>Business</td>
+                    <td>Validation choix paiement</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Summary</strong></td>
+                    <td>Business</td>
+                    <td>Résumé de commande</td>
+                  </tr>
+                  <tr>
+                    <td><strong>PaymentSummary</strong></td>
+                    <td>Business</td>
+                    <td>Résumé paiement</td>
+                  </tr>
+                  <tr>
+                    <td><strong>ProductSummary</strong></td>
+                    <td>Business</td>
+                    <td>Résumé produits</td>
+                  </tr>
+                  <tr>
+                    <td><strong>RebateSummary</strong></td>
+                    <td>Business</td>
+                    <td>Résumé remises</td>
+                  </tr>
+                  <tr>
+                    <td><strong>ShippingSummary</strong></td>
+                    <td>Business</td>
+                    <td>Résumé expédition</td>
+                  </tr>
+                </tbody>
+              </table>
+            </details>
+          </div>
+          <div
+            class="vflow vflow--md margin-bottom-md padding-md border radius-md"
+          >
+            <h5 id="front-pc---80-composants">Front PC - 80+ composants</h5>
+            <ul>
+              <li><strong>Total des composants</strong> : 80+</li>
+            </ul>
+            <details>
+              <summary>Voir l'inventaire détaillé</summary>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Composant</th>
+                    <th>Catégorie</th>
+                    <th>État CSS</th>
+                    <th>Dépendance JS</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>Blockquote</strong></td>
+                    <td>ELEMENTS</td>
+                    <td>🟠 Partiel</td>
+                    <td>non</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Button</strong></td>
+                    <td>ELEMENTS</td>
+                    <td>🟢 Complet</td>
+                    <td>non</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Icon</strong></td>
+                    <td>ELEMENTS</td>
+                    <td>🟢 Complet</td>
+                    <td>non</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Image</strong></td>
+                    <td>ELEMENTS</td>
+                    <td>🔴 Manquant</td>
+                    <td>non</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Link</strong></td>
+                    <td>ELEMENTS</td>
+                    <td>🟢 Complet</td>
+                    <td>non</td>
+                  </tr>
+                  <tr>
+                    <td><strong>List</strong></td>
+                    <td>ELEMENTS</td>
+                    <td>🟢 Complet</td>
+                    <td>non</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Paragraph</strong></td>
+                    <td>ELEMENTS</td>
+                    <td>🟢 Complet</td>
+                    <td>non</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Separator</strong></td>
+                    <td>ELEMENTS</td>
+                    <td>🟢 Complet</td>
+                    <td>non</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Table</strong></td>
+                    <td>ELEMENTS</td>
+                    <td>🟡 Outdated</td>
+                    <td>non</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Time / Date</strong></td>
+                    <td>ELEMENTS</td>
+                    <td>🟠 Partiel</td>
+                    <td>oui</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Title</strong></td>
+                    <td>ELEMENTS</td>
+                    <td>🟢 Complet</td>
+                    <td>non</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Check (Selection control)</strong></td>
+                    <td>FORMS</td>
+                    <td>🟢 Complet</td>
+                    <td>non</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Choice Button</strong></td>
+                    <td>FORMS</td>
+                    <td>🟢 Complet</td>
+                    <td>non</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Date Picker</strong></td>
+                    <td>FORMS</td>
+                    <td>-</td>
+                    <td>-</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Range / Slider</strong></td>
+                    <td>FORMS</td>
+                    <td>-</td>
+                    <td>-</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Progress bar</strong></td>
+                    <td>FORMS</td>
+                    <td>-</td>
+                    <td>-</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Fileupload</strong></td>
+                    <td>FORMS</td>
+                    <td>🟠 Partiel</td>
+                    <td>oui</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Form Validation</strong></td>
+                    <td>FORMS</td>
+                    <td>-</td>
+                    <td>oui</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Formulaires</strong></td>
+                    <td>FORMS</td>
+                    <td>🟢 Complet</td>
+                    <td>non</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Input Text</strong></td>
+                    <td>FORMS</td>
+                    <td>🟢 Complet</td>
+                    <td>non</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Password</strong></td>
+                    <td>FORMS</td>
+                    <td>🟢 Complet</td>
+                    <td>oui</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Quantité</strong></td>
+                    <td>FORMS</td>
+                    <td>🟢 Complet</td>
+                    <td>non</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Select</strong></td>
+                    <td>FORMS</td>
+                    <td>🟢 Complet</td>
+                    <td>non</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Switch</strong></td>
+                    <td>FORMS</td>
+                    <td>🟢 Complet</td>
+                    <td>non</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Textarea</strong></td>
+                    <td>FORMS</td>
+                    <td>-</td>
+                    <td>non</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Block</strong></td>
+                    <td>OBJECTS</td>
+                    <td>🟠 Partiel</td>
+                    <td>non</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Container</strong></td>
+                    <td>OBJECTS</td>
+                    <td>🟢 Complet</td>
+                    <td>non</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Flow</strong></td>
+                    <td>OBJECTS</td>
+                    <td>🟢 Complet</td>
+                    <td>non</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Generic card</strong></td>
+                    <td>OBJECTS</td>
+                    <td>🟢 Complet</td>
+                    <td>non</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Grid</strong></td>
+                    <td>OBJECTS</td>
+                    <td>🟠 Partiel</td>
+                    <td>non</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Icon-info</strong></td>
+                    <td>OBJECTS</td>
+                    <td>🟢 Complet</td>
+                    <td>non</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Logo</strong></td>
+                    <td>OBJECTS</td>
+                    <td>🟢 Complet</td>
+                    <td>non</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Overlay</strong></td>
+                    <td>OBJECTS</td>
+                    <td>🟢 Complet</td>
+                    <td>non</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Picto</strong></td>
+                    <td>OBJECTS</td>
+                    <td>🟢 Complet</td>
+                    <td>non</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Pub</strong></td>
+                    <td>OBJECTS</td>
+                    <td>🟢 Complet</td>
+                    <td>non</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Ratio</strong></td>
+                    <td>OBJECTS</td>
+                    <td>🟢 Complet</td>
+                    <td>non</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Text</strong></td>
+                    <td>OBJECTS</td>
+                    <td>🟢 Complet</td>
+                    <td>non</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Access</strong></td>
+                    <td>COMPONENTS</td>
+                    <td>🟢 Complet</td>
+                    <td>non</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Accordéon</strong></td>
+                    <td>COMPONENTS</td>
+                    <td>🟢 Complet</td>
+                    <td>oui</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Alert</strong></td>
+                    <td>COMPONENTS</td>
+                    <td>🟢 Complet</td>
+                    <td>non</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Avatar</strong></td>
+                    <td>COMPONENTS</td>
+                    <td>🟠 Partiel</td>
+                    <td>-</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Badge</strong></td>
+                    <td>COMPONENTS</td>
+                    <td>🟢 Complet</td>
+                    <td>non</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Banner</strong></td>
+                    <td>COMPONENTS</td>
+                    <td>À mettre à jour</td>
+                    <td>oui</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Breadcrumb</strong></td>
+                    <td>COMPONENTS</td>
+                    <td>🟢 Complet</td>
+                    <td>non</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Caroussel</strong></td>
+                    <td>COMPONENTS</td>
+                    <td>🟢 Complet</td>
+                    <td>oui</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Countdown</strong></td>
+                    <td>COMPONENTS</td>
+                    <td>-</td>
+                    <td>oui</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Entry</strong></td>
+                    <td>COMPONENTS</td>
+                    <td>🟠 Partiel</td>
+                    <td>non</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Filter</strong></td>
+                    <td>COMPONENTS</td>
+                    <td>🟢 Complet</td>
+                    <td>non</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Label</strong></td>
+                    <td>COMPONENTS</td>
+                    <td>🟢 Complet</td>
+                    <td>non</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Layer / Drawer</strong></td>
+                    <td>COMPONENTS</td>
+                    <td>🟢 Complet</td>
+                    <td>oui</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Loader</strong></td>
+                    <td>COMPONENTS</td>
+                    <td>🟢 Complet</td>
+                    <td>non</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Menu burger</strong></td>
+                    <td>COMPONENTS</td>
+                    <td>🔴 Manquant</td>
+                    <td>non</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Menu filtre</strong></td>
+                    <td>COMPONENTS</td>
+                    <td>🔴 Manquant</td>
+                    <td>non</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Notif box</strong></td>
+                    <td>COMPONENTS</td>
+                    <td>🔴 Manquant</td>
+                    <td>oui</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Overlay</strong></td>
+                    <td>COMPONENTS</td>
+                    <td>🟢 Complet</td>
+                    <td>non</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Paging</strong></td>
+                    <td>COMPONENTS</td>
+                    <td>🟠 Partiel</td>
+                    <td>non</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Pop-in / Modal / Dialog</strong></td>
+                    <td>COMPONENTS</td>
+                    <td>🟢 Complet</td>
+                    <td>oui</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Price</strong></td>
+                    <td>COMPONENTS</td>
+                    <td>🟢 Complet</td>
+                    <td>non</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Product card</strong></td>
+                    <td>COMPONENTS</td>
+                    <td>🟠 Partiel</td>
+                    <td>non</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Progress bar</strong></td>
+                    <td>COMPONENTS</td>
+                    <td>🟢 Complet</td>
+                    <td>oui</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Rating</strong></td>
+                    <td>COMPONENTS</td>
+                    <td>🟢 Complet</td>
+                    <td>oui</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Rating interactive</strong></td>
+                    <td>COMPONENTS</td>
+                    <td>🟢 Complet</td>
+                    <td>oui</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Repairability</strong></td>
+                    <td>COMPONENTS</td>
+                    <td>🟢 Complet</td>
+                    <td>non</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Scroller</strong></td>
+                    <td>COMPONENTS</td>
+                    <td>🟢 Complet</td>
+                    <td>non</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Search bar</strong></td>
+                    <td>COMPONENTS</td>
+                    <td>🟢 Complet</td>
+                    <td>non</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Separator</strong></td>
+                    <td>COMPONENTS</td>
+                    <td>🟢 Complet</td>
+                    <td>oui</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Skeletton / Placeholder</strong></td>
+                    <td>COMPONENTS</td>
+                    <td>🟢 Complet</td>
+                    <td>non</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Slider</strong></td>
+                    <td>COMPONENTS</td>
+                    <td>🟢 Complet</td>
+                    <td>non</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Status</strong></td>
+                    <td>COMPONENTS</td>
+                    <td>🟠 Partiel</td>
+                    <td>oui</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Stepper</strong></td>
+                    <td>COMPONENTS</td>
+                    <td>🟢 Complet</td>
+                    <td>oui</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Swatch</strong></td>
+                    <td>COMPONENTS</td>
+                    <td>-</td>
+                    <td>non</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Tab</strong></td>
+                    <td>COMPONENTS</td>
+                    <td>🟢 Complet</td>
+                    <td>oui</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Timeline</strong></td>
+                    <td>COMPONENTS</td>
+                    <td>🟢 Complet</td>
+                    <td>oui</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Toast / Snackbar</strong></td>
+                    <td>COMPONENTS</td>
+                    <td>🟢 Complet</td>
+                    <td>non</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Tooltip</strong></td>
+                    <td>COMPONENTS</td>
+                    <td>-</td>
+                    <td>oui</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Variant</strong></td>
+                    <td>COMPONENTS</td>
+                    <td>🔴 Manquant</td>
+                    <td>-</td>
+                  </tr>
+                  <tr>
+                    <td><strong>View More/Less</strong></td>
+                    <td>COMPONENTS</td>
+                    <td>🟢 Complet</td>
+                    <td>-</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Footer</strong></td>
+                    <td>LAYOUTS</td>
+                    <td>-</td>
+                    <td>-</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Header</strong></td>
+                    <td>LAYOUTS</td>
+                    <td>-</td>
+                    <td>-</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Utilities</strong></td>
+                    <td>UTILITIES</td>
+                    <td>🟢 Complet</td>
+                    <td>-</td>
+                  </tr>
+                </tbody>
+              </table>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Catégorie</th>
+                    <th>Total</th>
+                    <th>🟢 Complet</th>
+                    <th>🟠 Partiel</th>
+                    <th>🟡 Outdated</th>
+                    <th>🔴 Manquant</th>
+                    <th>% Complet</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>Elements</strong></td>
+                    <td>11</td>
+                    <td>8</td>
+                    <td>2</td>
+                    <td>1</td>
+                    <td>0</td>
+                    <td><strong>90%</strong></td>
+                  </tr>
+                  <tr>
+                    <td><strong>Forms</strong></td>
+                    <td>15</td>
+                    <td>7</td>
+                    <td>3</td>
+                    <td>1</td>
+                    <td>4</td>
+                    <td><strong>45%</strong></td>
+                  </tr>
+                  <tr>
+                    <td><strong>Objects</strong></td>
+                    <td>12</td>
+                    <td>9</td>
+                    <td>2</td>
+                    <td>0</td>
+                    <td>1</td>
+                    <td><strong>85%</strong></td>
+                  </tr>
+                  <tr>
+                    <td><strong>Components</strong></td>
+                    <td>44</td>
+                    <td>28</td>
+                    <td>10</td>
+                    <td>1</td>
+                    <td>5</td>
+                    <td><strong>65%</strong></td>
+                  </tr>
+                  <tr>
+                    <td><strong>Layouts</strong></td>
+                    <td>2</td>
+                    <td>2</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td><strong>100%</strong></td>
+                  </tr>
+                  <tr>
+                    <td><strong>Utilities</strong></td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td><strong>100%</strong></td>
+                  </tr>
+                </tbody>
+              </table>
+            </details>
+          </div>
+        </div>
+        <div class="vflow vflow--md">
+          <h4 id="analyse-cross-équipes">Analyse Cross-équipes</h4>
+          <ul>
+            <li>
+              <strong
+                >Composants critiques manquants sur plusieurs canaux</strong
+              >
+              : View more/less, Upload files, Snackbar, Notif box, List, Dialog…
+            </li>
+            <li>
+              <strong>Dette de mise à jour</strong> : Beaucoup de composants
+              nécessitent une refonte ou une harmonisation (Button, Alert,
+              Progress bar, etc.)
+            </li>
+            <li>
+              <strong>Composants non concernés</strong> : Certains modules ne
+              sont pas nécessaires sur tous les canaux (ex : Access, Entry,
+              Notif box…)
+            </li>
+            <li>
+              <strong>Alignement design/documentation</strong> : La plupart des
+              composants sont bien conçus côté design, mais la documentation et
+              l’implémentation ne suivent pas toujours.
+            </li>
+            <li>
+              <strong>Technologies variées</strong> : Mélange de Web Components,
+              React, Vanilla JS, C#… rendant la réutilisation complexe.
+            </li>
+          </ul>
+          <details>
+            <summary>Voir l'inventaire détaillé</summary>
+            <table>
+              <thead>
+                <tr>
+                  <th>Composant</th>
+                  <th>Customer Zone</th>
+                  <th>Mobile</th>
+                  <th>Order</th>
+                  <th>Front PC</th>
+                  <th>Total</th>
+                  <th>Niveau de Duplication</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Alert</strong></td>
+                  <td>✅</td>
+                  <td>✅</td>
+                  <td>✅</td>
+                  <td>✅</td>
+                  <td><strong>4</strong></td>
+                  <td>🔴 Critique</td>
+                </tr>
+                <tr>
+                  <td><strong>Button</strong></td>
+                  <td>✅</td>
+                  <td>✅</td>
+                  <td>✅</td>
+                  <td>✅</td>
+                  <td><strong>4</strong></td>
+                  <td>🔴 Critique</td>
+                </tr>
+                <tr>
+                  <td><strong>Popin/Modal</strong></td>
+                  <td>✅</td>
+                  <td>✅</td>
+                  <td>✅</td>
+                  <td>✅</td>
+                  <td><strong>4</strong></td>
+                  <td>🔴 Critique</td>
+                </tr>
+                <tr>
+                  <td><strong>Badge</strong></td>
+                  <td>✅</td>
+                  <td>✅</td>
+                  <td>❌</td>
+                  <td>✅</td>
+                  <td><strong>3</strong></td>
+                  <td>🔴 Très élevé</td>
+                </tr>
+                <tr>
+                  <td><strong>Container</strong></td>
+                  <td>✅</td>
+                  <td>✅</td>
+                  <td>❌</td>
+                  <td>✅</td>
+                  <td><strong>3</strong></td>
+                  <td>🔴 Très élevé</td>
+                </tr>
+                <tr>
+                  <td><strong>Label</strong></td>
+                  <td>✅</td>
+                  <td>❌</td>
+                  <td>❌</td>
+                  <td>✅</td>
+                  <td><strong>2</strong></td>
+                  <td>🟠 Élevé</td>
+                </tr>
+                <tr>
+                  <td><strong>Layer</strong></td>
+                  <td>✅</td>
+                  <td>✅</td>
+                  <td>✅</td>
+                  <td>✅</td>
+                  <td><strong>4</strong></td>
+                  <td>🔴 Critique</td>
+                </tr>
+                <tr>
+                  <td><strong>Loader</strong></td>
+                  <td>❌</td>
+                  <td>✅</td>
+                  <td>✅</td>
+                  <td>✅</td>
+                  <td><strong>3</strong></td>
+                  <td>🔴 Très élevé</td>
+                </tr>
+                <tr>
+                  <td><strong>Progress Bar</strong></td>
+                  <td>✅</td>
+                  <td>❌</td>
+                  <td>❌</td>
+                  <td>✅</td>
+                  <td><strong>2</strong></td>
+                  <td>🟠 Élevé</td>
+                </tr>
+                <tr>
+                  <td><strong>Select</strong></td>
+                  <td>✅</td>
+                  <td>❌</td>
+                  <td>✅</td>
+                  <td>✅</td>
+                  <td><strong>3</strong></td>
+                  <td>🔴 Très élevé</td>
+                </tr>
+                <tr>
+                  <td><strong>Text Area</strong></td>
+                  <td>✅</td>
+                  <td>❌</td>
+                  <td>❌</td>
+                  <td>✅</td>
+                  <td><strong>1</strong></td>
+                  <td>🟡 Paradoxal</td>
+                </tr>
+                <tr>
+                  <td><strong>Accordion</strong></td>
+                  <td>✅</td>
+                  <td>❌</td>
+                  <td>❌</td>
+                  <td>✅</td>
+                  <td><strong>2</strong></td>
+                  <td>🟠 Problématique</td>
+                </tr>
+                <tr>
+                  <td><strong>Card</strong></td>
+                  <td>✅</td>
+                  <td>❌</td>
+                  <td>❌</td>
+                  <td>✅</td>
+                  <td><strong>2</strong></td>
+                  <td>🟠 Élevé</td>
+                </tr>
+                <tr>
+                  <td><strong>Carousel</strong></td>
+                  <td>✅</td>
+                  <td>✅</td>
+                  <td>✅</td>
+                  <td>✅</td>
+                  <td><strong>4</strong></td>
+                  <td>🔴 Critique</td>
+                </tr>
+                <tr>
+                  <td><strong>Toggle/Switch</strong></td>
+                  <td>✅</td>
+                  <td>✅</td>
+                  <td>❌</td>
+                  <td>✅</td>
+                  <td><strong>3</strong></td>
+                  <td>🔴 Très élevé</td>
+                </tr>
+                <tr>
+                  <td><strong>Tooltip</strong></td>
+                  <td>❌</td>
+                  <td>❌</td>
+                  <td>✅</td>
+                  <td>✅</td>
+                  <td><strong>1</strong></td>
+                  <td>🟡 Incomplet</td>
+                </tr>
+                <tr>
+                  <td><strong>Countdown</strong></td>
+                  <td>❌</td>
+                  <td>✅</td>
+                  <td>✅</td>
+                  <td>✅</td>
+                  <td><strong>2</strong></td>
+                  <td>🟠 Élevé</td>
+                </tr>
+                <tr>
+                  <td><strong>Filter</strong></td>
+                  <td>❌</td>
+                  <td>✅</td>
+                  <td>✅</td>
+                  <td>✅</td>
+                  <td><strong>3</strong></td>
+                  <td>🔴 Très élevé</td>
+                </tr>
+                <tr>
+                  <td><strong>Overlay</strong></td>
+                  <td>❌</td>
+                  <td>❌</td>
+                  <td>✅</td>
+                  <td>✅</td>
+                  <td><strong>2</strong></td>
+                  <td>🟠 Élevé</td>
+                </tr>
+                <tr>
+                  <td><strong>Price</strong></td>
+                  <td>❌</td>
+                  <td>❌</td>
+                  <td>✅</td>
+                  <td>✅</td>
+                  <td><strong>2</strong></td>
+                  <td>🟠 Élevé</td>
+                </tr>
+              </tbody>
+            </table>
+          </details>
+        </div>
+        <div class="vflow vflow--md">
+          <h4 id="impact-économique">Impact Économique</h4>
+          <ul>
+            <li>
+              <strong>Total de composants dupliqués</strong> : 20 composants
+              identifiés
+            </li>
+            <li>
+              <strong>Estimé 60+ heures</strong> de développement gaspillées par
+              composant
+            </li>
+            <li>
+              <strong>Dette technique</strong> : ~1200+ heures de travail
+              redondant
+            </li>
+            <li>
+              <strong>Coût de maintenance</strong> : multiplication par 2-4 du
+              temps de debug et d'évolution
+            </li>
+          </ul>
+          <p>
+            👉
+            <em
+              >Cette analyse démontre l'urgence d'unifier ces composants dans un
+              Design System central unique.</em
+            >
+          </p>
+          <p><strong>Chiffres alarmants</strong> :</p>
+          <ul>
+            <li>
+              <strong>~172 composants actifs</strong> au total développés en
+              silos (147 + 25 nouveaux identifiés Front PC)
+            </li>
+            <li>
+              <strong>+25 composants dépréciés</strong> rien que dans l'équipe
+              Mobile (dette technique)
+            </li>
+            <li>
+              <strong>+10 composants manquants</strong> dans Front PC malgré 80+
+              composants existants
+            </li>
+            <li>
+              <strong>+16 composants partiels</strong> nécessitant finalisation
+              (Front PC)
+            </li>
+            <li>
+              <strong>Au minimum 25+ doublons identifiés</strong> (probablement
+              plus avec un audit complet)
+            </li>
+            <li>
+              <strong>4 versions différentes</strong> du composant Modal/Popin
+            </li>
+            <li>
+              <strong>Disconnect CSS/Serveur</strong> : composants CSS sans
+              équivalent back-end
+            </li>
+            <li><strong>Aucune synchronisation</strong> entre les équipes</li>
+          </ul>
+          <p>
+            <strong>Observation</strong> : La fragmentation est plus profonde
+            qu'initialement estimée. Nous avons l'équivalent de
+            <strong>4 design systems parallèles</strong> au lieu d'un seul
+            unifié, avec en plus une
+            <strong>dette technique significative</strong> de composants
+            obsolètes non supprimés.
+          </p>
+          <p>
+            ⚠️ Attention tous les chiffres ont été généré par intélligence
+            artificielle et ne sont probablement pas exacts.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <section
+      id="leadership-vision"
+      class="sticky-hero sticky-hero--scale margin-bottom-xl js-sticky-hero bg-bleu"
+    >
+      <div
+        class="sticky-hero__media"
+        style="background-image: url(./Zig5.png)"
+        aria-hidden="true"
+      ></div>
+
+      <div class="sticky-hero__content">
+        <div class="container max-width-sm text-component">
+          <h1 class="DODO jaune">Recommandations Stratégiques</h1>
+        </div>
+      </div>
+    </section>
+
+    <div class="container max-width-sm stack margin-top-xl margin-bottom-xl">
+      <div class="text-component line-height-lg v-space-md">
+        <h2 id="-recommandations-stratégiques">
+          📌 Recommandations Stratégiques
+        </h2>
+        <p>
+          Pour que notre Design System soit réellement adopté et pérenne, il ne
+          suffit pas de livrer des composants. Il faut poser les bons cadres,
+          faire les bons choix organisationnels, et inscrire le système dans une
+          logique produit, pas seulement technique.
+        </p>
+        <h3 id="1-penser-produit-pas-seulement-bibliothèque">
+          1. <strong>Penser Produit, pas seulement bibliothèque</strong>
+        </h3>
+        <ul>
+          <li>
+            Éviter le syndrome "livrable oublié" : le Design System n’est jamais
+            fini.
+          </li>
+          <li>
+            Instaurer une feuille de route évolutive, avec des feedback loops
+            claires.
+          </li>
+          <li>
+            Identifier un <strong>product owner du système</strong> (même à
+            temps partiel).
+          </li>
+        </ul>
+        <h3 id="2-créer-une-gouvernance-distribuée">
+          2. <strong>Créer une gouvernance distribuée</strong>
+        </h3>
+        <ul>
+          <li>
+            Constituer une <strong>Design System Team hybride</strong> (design +
+            dev + content).
+          </li>
+          <li>
+            Ouvrir la contribution via un process clair : RFC (Request for
+            Comments), PR (Pull Request), validation multi-profils.
+          </li>
+          <li>
+            Organiser une <strong>veille continue</strong> (tech, accessibilité,
+            usages internes).
+          </li>
+        </ul>
+        <h3 id="3-assurer-laccessibilité-en-continu">
+          3. <strong>Assurer l’accessibilité en continu</strong>
+        </h3>
+        <ul>
+          <li>Intégrer des audits réguliers en amont, pas en aval.</li>
+          <li>
+            Rendre chaque composant testable et documenté sur ses capacités
+            inclusives.
+          </li>
+          <li>
+            Former les équipes produit aux standards minimums (RGAA, WCAG).
+          </li>
+        </ul>
+        <h3 id="4-investir-dans-la-documentation-comme-interface">
+          4. <strong>Investir dans la documentation comme interface</strong>
+        </h3>
+        <p>Sans documentation, pas de design system !</p>
+        <p>
+          Pour être impactante, une documentation doit être pensée comme un
+          produit à part entière, nécessitant un investissement continu et une
+          évolution constante.<br />
+          Trois règles fondamentales guident cette approche :
+        </p>
+        <ul>
+          <li>
+            <strong>Clarté</strong> : L'information doit être compréhensible.
+            <ul>
+              <li>Documenter l’intention, pas juste l’implémentation.</li>
+              <li>Penser multi-audience : designers, devs, PO, QA.</li>
+            </ul>
+          </li>
+          <li>
+            <strong>Accessibilité</strong> : Facilement trouvable et
+            consultable.
+            <ul>
+              <li>
+                ex : Hub design -&gt;
+                <a href="https://design.cdiscount.com"
+                  >https://design.cdiscount.com</a
+                >
+                ou
+                <a href="https://cdiscount.design/"
+                  >https://cdiscount.design/</a
+                >
+              </li>
+            </ul>
+          </li>
+          <li>
+            <strong>Évolution</strong> : Mise à jour continuellement pour rester
+            pertinente.
+          </li>
+        </ul>
+        <p>
+          <strong
+            >Elle doit être la source unique de vérité pour tous les
+            utilisateurs, conçue spécifiquement pour eux.</strong
+          >
+        </p>
+        <h3 id="5-créer-des-incitations-dadoption">
+          5. <strong>Créer des incitations d’adoption</strong>
+        </h3>
+        <ul>
+          <li>
+            Rendre le DS facile à installer, à tester, à overrider
+            intelligemment.
+          </li>
+          <li>
+            Célébrer les équipes qui utilisent/contribuent (Canal Teams,
+            newsletters internes, démos).
+          </li>
+          <li>
+            Évaluer l’adoption avec des KPIs simples : couverture, satisfaction,
+            dette réduite.
+          </li>
+        </ul>
+        <h3 id="6-ne-pas-attendre-la-perfection-pour-déployer">
+          6. <strong>Ne pas attendre la perfection pour déployer</strong>
+        </h3>
+        <ul>
+          <li>
+            Démarrer petit, livrer vite, écouter les usages. ( exemple :
+            @cdiscount/design-tokens )
+          </li>
+          <li>Itérer avec des cycles courts (DS sprints ?).</li>
+          <li>
+            Favoriser le mindset "public beta" plutôt que "version figée".
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <section
+      id="leadership-vision"
+      class="sticky-hero sticky-hero--scale margin-bottom-xl js-sticky-hero"
+    >
+      <div
+        class="sticky-hero__media bg-white"
+        style="background-image: url(./Zig7.svg)"
+        aria-hidden="true"
+      ></div>
+
+      <div class="sticky-hero__content">
+        <div class="container max-width-sm text-component">
+          <h1 class="DODO rouge">Recommandations Techniques</h1>
+        </div>
+      </div>
+    </section>
+
+    <div class="container max-width-sm stack margin-top-xl margin-bottom-xl">
+      <div class="text-component line-height-lg v-space-md">
+        <h2 id="-recommandations-techniques">🎯 Recommandations Techniques</h2>
+        <h3 id="choix-techniques-à-faire">Choix techniques à faire</h3>
+        <h4
+          id="dans-un-écosystème-web-complexe-le-dénominateur-commun-cest-le-css-et-le-html"
+        >
+          Dans un écosystème web complexe, le dénominateur commun c'est le CSS
+          et le HTML
+        </h4>
+        <p>
+          Indépendamment de la technologie JS choisie (React, Vue, Angular, Web
+          Components, etc.), le CSS et le HTML restent les piliers universels du
+          front-end. C'est ce que le navigateur interprète.
+        </p>
+        <p>
+          Voici les choix techniques clés à considérer pour unifier et
+          standardiser notre Design System :
+        </p>
+        <ul>
+          <li>
+            <strong>Unifier les fronts avec un même base CSS</strong> Reset /
+            Normalizr / Global Core CSS
+          </li>
+          <li>
+            <strong>Identifier les Atomes</strong> (boutons, icônes, inputs) à
+            standardiser
+          </li>
+          <li>
+            <strong>Choisir une stack cible</strong> (<mark>React</mark>,
+            WebComponents, Vanilla JS / <mark>TypeScript</mark> / Framework ? )
+          </li>
+          <li>
+            <strong>Choisir une stratégie CSS et une architecture</strong> (CSS
+            Modules, PostCSS, SCSS / Utilities First, Atomic CSS, BEM, ITCSS,
+            BEMIT, Cube.)
+          </li>
+        </ul>
+        <p>
+          Uniformiser la base visuelle permet dès maintenant d’aligner
+          rapidement l’UI, même sans migration immédiate des composants métiers.
+        </p>
+
+        <div>
+          <div class="code__exemple">
+            <strong><small>EXEMPLE</small></strong>
+            <script type="text/plain" class="language-html">
+              <!-- HTML natif -->
+              <button class="ex-btn ex-btn--primary" aria-pressed="false">
+                <span>Ajouter au panier</span>
+              </button>
+            </script>
+            <script type="text/plain" class="language-jsx">
+              // React (Button.jsx)
+              import React from "react";
+
+              export default function EXButton({ onClick, children = "Ajouter au panier" }) {
+                return (
+                  <button
+                    className="ex-btn ex-btn--primary"
+                    aria-pressed="false"
+                    onClick={onClick}
+                  >
+                    {children}
+                  </button>
+                );
+              }
+
+              // usage: <EXButton onClick={() => console.log('clic')} />
+            </script>
+            <script type="text/plain" class="language-C#">
+              // Blazor (EXButton.razor)
+              <button class="ex-btn ex-btn--primary" @onclick="Toggle" aria-pressed="@Pressed">
+                @Label
+              </button>
+
+              @code {
+                [Parameter] public string Label { get; set; } = "Ajouter au panier";
+                private bool Pressed { get; set; }
+
+                private void Toggle()
+                {
+                  Pressed = !Pressed;
+                  // logique C# côté client/serveur...
+                }
+              }
+            </script>
+            <script type="text/plain" class="language-js">
+              // Web Component (global CSS used, pas de shadow DOM pour réutiliser les mêmes classes)
+              class EXButton extends HTMLElement {
+                connectedCallback() {
+                  const label = this.getAttribute("label") || "Ajouter au panier";
+                  this.innerHTML = `<button class="ex-btn ex-btn--primary" aria-pressed="false">${label}</button>`;
+                  this.querySelector('button')?.addEventListener('click', () => {
+                    this.dispatchEvent(new CustomEvent('ex-click', { bubbles: true }));
+                  });
+                }
+              }
+              customElements.define('ex-button', EXButton);
+
+              /* usage: <ex-button label="Acheter"></ex-button> */
+            </script>
+          </div>
+        </div>
+
+        <h3 id="proposition-de-stack-technique">
+          Proposition de stack technique
+        </h3>
+        <p>
+          Pour accompagner le Design System d'une librairie robuste et
+          accessible, je propose la stack suivante :
+        </p>
+        <ul>
+          <li>
+            <strong
+              >Sous-couche headless
+              <a href="https://ariakit.org/">Ariakit</a></strong
+            >
+            ou <a href="https://www.radix-ui.com/">Radix UI</a> pour
+            l’accessibilité (composants headless, conformité WAI-ARIA) (?)
+          </li>
+          <li>
+            <strong>React</strong> comme framework principal de composants
+          </li>
+          <li>
+            <strong>JavaScript / TypeScript</strong> pour la robustesse, la
+            documentation automatique et la maintenabilité
+          </li>
+          <li>
+            <strong>Design Tokens</strong> centralisés (couleurs, espacements,
+            typographies, etc.)
+          </li>
+          <li>
+            <strong>Reset CSS / Normalizr / Global Core CSS</strong> pour une
+            cohérence visuelle de base
+          </li>
+          <li>
+            <strong>CSS Modules / SCSS / PostCSS</strong> pour l’encapsulation,
+            la modularité et la compatibilité des styles
+          </li>
+          <li>
+            <strong>Tests</strong> automatisés (unitaires, accessibilité,
+            visuels)
+          </li>
+          <li>
+            <strong>Storybook</strong> pour le développement, la documentation
+            et la visualisation des composants en isolation
+          </li>
+        </ul>
+        <p><strong>Pourquoi cette stack ?</strong></p>
+        <ul>
+          <li>
+            <strong>Accessibilité native</strong> et conformité WCAG grâce à
+            Ariakit
+          </li>
+          <li>
+            <strong>Interopérabilité</strong> et adoption facilitée dans tous
+            les contextes front (SSR, SPA…)
+          </li>
+          <li>
+            <strong>Scalabilité</strong> et robustesse via TypeScript et la
+            séparation claire des tokens/design/implémentation
+          </li>
+          <li>
+            <strong>Expérience développeur</strong> optimale (DX) :
+            documentation vivante, tests intégrés, styles isolés
+          </li>
+        </ul>
+        <p>
+          👉 Cette stack est alignée avec les meilleures pratiques du marché et
+          garantit la pérennité du Design System Cdiscount.
+        </p>
+      </div>
+    </div>
+
+    <section
+      id="leadership-vision"
+      class="sticky-hero sticky-hero--scale margin-bottom-xl js-sticky-hero"
+    >
+      <div
+        class="sticky-hero__media bg-vert"
+        style="background-image: url(./Zig.svg)"
+        aria-hidden="true"
+      ></div>
+
+      <div class="sticky-hero__content">
+        <div class="container max-width-sm text-component">
+          <h1 class="DODO bleu">Proposition de Plan</h1>
+        </div>
+      </div>
+    </section>
+
+    <div class="container max-width-sm stack margin-top-xl margin-bottom-xl">
+      <div class="text-component line-height-lg v-space-md">
+        <h2 id="️-proposition-de-plan">🗺️ Proposition de Plan</h2>
+        <p>
+          Pour garantir une adoption simple et une navigation intuitive, je
+          propose une structure de documentation claire et orientée utilisateur.
+        </p>
+        <h3 id="1-documentation"><strong>1. Documentation</strong></h3>
+        <ul>
+          <li>
+            <strong>What's New</strong> : Suivi des évolutions du Design System.
+            ( changelogs, nouveautés, etc. )
+          </li>
+          <li>
+            <strong>Get started</strong> : Guide de démarrage rapide pour les
+            nouveaux utilisateurs.
+            <ul>
+              <li>Installation ( repos ui, repos tokens )</li>
+              <li>Configuration ( intégration dans un projet, themes ? )</li>
+              <li>Outillages ( Eslint, Stylelint, Typescript, etc. )</li>
+            </ul>
+          </li>
+          <li>
+            <strong>Design</strong>
+            <ul>
+              <li>
+                <strong>Brand</strong> : Notre identité, notre voix, nos
+                valeurs.
+              </li>
+              <li>
+                <strong>Fondation</strong> : Les bases de notre langage visuel.
+                <ul>
+                  <li>Couleurs</li>
+                  <li>Typographie</li>
+                  <li>Élévations (ombres, etc.)</li>
+                  <li>Spacings (marges, paddings)</li>
+                  <li>Motion (animations, transitions)</li>
+                  <li>Accessibilité (RGAA)</li>
+                </ul>
+              </li>
+              <li><strong>Ux Writing</strong> : Guide de rédaction UX.</li>
+            </ul>
+          </li>
+          <li>
+            <strong>Develop</strong>
+            <ul>
+              <li>
+                <strong>Installation</strong> : Comment intégrer le DS dans un
+                projet.
+              </li>
+              <li>
+                <strong>Design Tokens</strong> : Utiliser nos variables de
+                style.
+              </li>
+              <li>
+                <strong>Components</strong> : Guide d'utilisation des
+                composants.
+                <ul>
+                  <li>
+                    <strong>Button</strong> : Composant bouton.
+                    <ul>
+                      <li><strong>Anatomy</strong> : Structure du bouton.</li>
+                      <li>
+                        <strong>API Reference</strong> : Propriétés et méthodes.
+                      </li>
+                      <li>
+                        <strong>Accessibility</strong> : Bonnes pratiques
+                        d'accessibilité.
+                      </li>
+                      <li>
+                        <strong>Examples</strong> : Exemples d'utilisation.
+                      </li>
+                    </ul>
+                  </li>
+                  <li><strong>Etc...</strong></li>
+                </ul>
+              </li>
+              <li>
+                <strong>Styling</strong> : Méthodes pour styliser les
+                composants.
+              </li>
+              <li>
+                <strong>Server Side Rendering (SSR)</strong> : Guide pour le
+                rendu côté serveur.
+              </li>
+              <li>
+                <strong>Using themes</strong> : Appliquer et personnaliser les
+                thèmes.
+              </li>
+              <li><strong>Hooks</strong> : Fonctions réutilisables.</li>
+              <li><strong>Utilities</strong> : Classes utilitaires.</li>
+            </ul>
+          </li>
+          <li>
+            <strong>Tools</strong> : Outils et bibliothèques recommandés.
+            <ul>
+              <li>
+                <strong>Figma</strong> : Access aux fichiers de design. ( design
+                kit, icons, Fonts, etc.. )
+              </li>
+              <li>
+                <strong>ESLint plugin</strong> : Outils pour garantir la qualité
+                du code.
+              </li>
+              <li>
+                <strong>Stylelint plugin</strong> : Outils pour garantir la
+                qualité des styles.
+              </li>
+            </ul>
+          </li>
+          <li>
+            <strong>Contributions</strong> : Comment contribuer au Design
+            System.
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <section
+      id="leadership-vision"
+      class="sticky-hero sticky-hero--scale margin-bottom-xl js-sticky-hero"
+    >
+      <div
+        class="sticky-hero__media bg-violet"
+        style="background-image: url(./Zig2.svg)"
+        aria-hidden="true"
+      ></div>
+
+      <div class="sticky-hero__content">
+        <div class="container max-width-sm text-component">
+          <h1 class="DODO vert">Arguments Clés</h1>
+        </div>
+      </div>
+    </section>
+
+    <div class="container max-width-sm stack margin-top-xl margin-bottom-xl">
+      <div class="text-component line-height-lg v-space-md">
+        <h2 id="️-arguments-clés">🎛️ Arguments Clés</h2>
+        <h3 id="risque-maîtrisé"><strong>Risque Maîtrisé</strong></h3>
+        <ul>
+          <li>
+            Migration <strong>progressive</strong> sans disruption delivery
+          </li>
+          <li>
+            <strong>Réversibilité</strong> : DS complément, pas remplacement
+            brutal
+          </li>
+          <li><strong>Formation</strong> équipes incluse dans le plan</li>
+        </ul>
+        <h3 id="impact-utilisateur"><strong>Impact Utilisateur</strong></h3>
+        <ul>
+          <li>
+            <strong>Expérience cohérente</strong> sur toutes les interfaces
+            Cdiscount
+          </li>
+          <li>
+            <strong>Accessibilité renforcée</strong> (RGAA compliance native)
+          </li>
+        </ul>
+        <h3 id="compétitivité"><strong>Compétitivité</strong></h3>
+        <ul>
+          <li>
+            <strong>Time-to-market</strong> accéléré pour nouvelles features
+          </li>
+          <li><strong>Qualité</strong> UI/UX professionnelle et moderne</li>
+          <li>
+            <strong>Scalabilité</strong> technique pour accompagner la
+            croissance
+          </li>
+        </ul>
+
+        <!--<hr />
+        <h2 id="-notes--idées-à-développer">
+          📝 Notes &amp; Idées à Développer
+        </h2>
+        <p><em>[Section à compléter avec vos prochaines idées]</em></p>
+        <hr />
+        <h2 id="-prochaines-étapes">🤝 Prochaines Étapes</h2>
+        <ol>
+          <li class="task-list-item">
+            <input type="checkbox" class="task-list-item-checkbox" /> Validation
+            direction sur la vision et les budgets
+          </li>
+          <li class="task-list-item">
+            <input type="checkbox" class="task-list-item-checkbox" />
+            Identification du Design System Lead
+          </li>
+          <li class="task-list-item">
+            <input type="checkbox" class="task-list-item-checkbox" /> Audit
+            détaillé des composants existants
+          </li>
+          <li class="task-list-item">
+            <input type="checkbox" class="task-list-item-checkbox" /> Roadmap
+            détaillée avec milestones
+          </li>
+          <li class="task-list-item">
+            <input type="checkbox" class="task-list-item-checkbox" /> Plan de
+            formation des équipes
+          </li>
+        </ol>
+        <!--<hr />-->
+      </div>
+      <hr />
+      tips :
+      <a href="https://www.designsystemchecklist.com/">designsystemchecklist</a>
+    </div>
+
+    <p><em>Document évolutif - Dernière mise à jour : 18 sept 2025</em></p>
+
+    <script>
+      (function () {
+        var StickyBackground = function (element) {
+          this.element = element;
+          this.scrollingElement = this.element.getElementsByClassName(
+            "sticky-hero__content"
+          )[0];
+          this.nextElement = this.element.nextElementSibling;
+          this.scrollingTreshold = 0;
+          this.nextTreshold = 0;
+          initStickyEffect(this);
+        };
+
+        function initStickyEffect(element) {
+          var observer = new IntersectionObserver(
+            stickyCallback.bind(element),
+            { threshold: [0, 0.1, 1] }
+          );
+          observer.observe(element.scrollingElement);
+          if (element.nextElement) observer.observe(element.nextElement);
+        }
+
+        function stickyCallback(entries, observer) {
+          var threshold = entries[0].intersectionRatio.toFixed(1);
+          entries[0].target == this.scrollingElement
+            ? (this.scrollingTreshold = threshold)
+            : (this.nextTreshold = threshold);
+
+          this.element.classList.toggle(
+            "sticky-hero--media-is-fixed",
+            this.nextTreshold > 0 || this.scrollingTreshold > 0
+          );
+        }
+
+        var stickyBackground =
+            document.getElementsByClassName("js-sticky-hero"),
+          intersectionObserverSupported =
+            "IntersectionObserver" in window &&
+            "IntersectionObserverEntry" in window &&
+            "intersectionRatio" in window.IntersectionObserverEntry.prototype;
+        if (stickyBackground.length > 0 && intersectionObserverSupported) {
+          // if IntersectionObserver is not supported, animations won't be triggeres
+          for (var i = 0; i < stickyBackground.length; i++) {
+            (function (i) {
+              // if animations are enabled -> init the StickyBackground object
+              if (
+                stickyBackground[i].classList.contains(
+                  "sticky-hero--overlay-layer"
+                ) ||
+                stickyBackground[i].classList.contains("sticky-hero--scale")
+              )
+                new StickyBackground(stickyBackground[i]);
+            })(i);
+          }
+        }
+      })();
+    </script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/prism.min.js"
+      integrity="sha512-hpZ5pDCF2bRCweL5WoA0/N1elet1KYL5mx3LP555Eg/0ZguaHawxNvEjF6O3rufAChs16HVNhEc6blF/rZoowQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/components/prism-css.min.js"
+      integrity="sha512-Jv/EO8zjSyqIDa2S0YjCGFY+mEROxud6g7AhfA0KcggjdzhPBhoRyetxV7G7/dnfBdZBzcOvpRn1K+J6sn3jyw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/components/prism-scss.min.js"
+      integrity="sha512-lQbJbXcaOvte/zzg18pf9ybI3iKZ2taOu9jE9c2z00Pdt8WiWAi3nFENtn+2aqlWaWkM+g683Wgj0ka/TOLvCw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/components/prism-scss.min.js"
+      integrity="sha512-lQbJbXcaOvte/zzg18pf9ybI3iKZ2taOu9jE9c2z00Pdt8WiWAi3nFENtn+2aqlWaWkM+g683Wgj0ka/TOLvCw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/plugins/unescaped-markup/prism-unescaped-markup.min.js"
+      integrity="sha512-rQtEAFW9oS0hBzTOYejcMPkq3jYbOoueW4C5CkRmrC3yzjw24oT+9V72/JGvI3EzAnU3DZlUn76OD0WTAJhP/g=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+  </body>
+</html>
